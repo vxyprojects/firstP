@@ -240,6 +240,12 @@ module.exports = function (app, fs) {
     });
 
 
+    app.get('/calender_view', function (req, res) {
+
+        res.render('calender', {})
+    });
+
+
     app.post('/login', function (req, res) {
         // rest_api key
         var client_id = '495aa953bc3aab844342f7e90981fec5';
@@ -270,7 +276,6 @@ module.exports = function (app, fs) {
 
     app.post('/send_me', function (req, res) {
         //변수
-//        var oForm = {};
         var access_token = req.body['params[access_token]'];
         var token_type = req.body['params[token_type]'];
         var template_id = '4024';
@@ -288,11 +293,6 @@ module.exports = function (app, fs) {
             form: {
                 "template_id": "4024"
             }
-//            json: {"template_id": "4024"}
-//            json: {"Parameter": {"template_id": "4024"}},
-//            json: {'Parameter': 'template_id=4024'},
-//            data: {"Parameter": {"template_id": 4024}},
-//            data: {"template_id": "4024"}
         };
         request(oRequestParam, function (error, response, body) {
             if (!error && response.statusCode == 200) {
@@ -301,7 +301,6 @@ module.exports = function (app, fs) {
                 console.log(body);
             } else {
                 console.log('error');
-//                console.log(response);
                 console.log(response.statusCode);
                 console.log(response.body);
             }

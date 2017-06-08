@@ -1,0 +1,188 @@
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title></title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+    <!-- 합쳐지고 최소화된 최신 CSS -->
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"> -->
+
+    <!-- 부가적인 테마 -->
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/boots  trap/3.3.2/css/bootstrap-theme.min.css"> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
+
+    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>-->
+    <!--
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.css"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.print.css"></script>
+        -->
+
+    <link href='http://fonts.googleapis.com/css?family=Lato:100,400,700' rel='stylesheet'/>
+    <link href='//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.6.0/fullcalendar.min.css' rel='stylesheet'/>
+    <link href='//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.6.0/fullcalendar.print.css' rel='stylesheet' media='print'/>
+    <script src='//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js'></script>
+    <script type='text/javascript' src='//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+    <script src='//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js'></script>
+    <script src='//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.6.0/fullcalendar.min.js'></script>
+
+</head>
+<body>
+<h1>캘린더 테스트 </h1>
+
+<div id='calendar'></div>
+
+<!--- modal  테스트 -->
+<!--
+<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            ...
+        </div>
+    </div>
+</div>
+-->
+</body>
+<script>
+
+    $(document).ready(function () {
+        $('#calendar').fullCalendar({
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'month,agendaWeek,agendaDay,listWeek'
+            },
+//            defaultDate: '2017-09-12',
+            navLinks: true, // can click day/week names to navigate views
+            editable: true,
+            eventLimit: true, // allow "more" link when too many events
+            events: [
+                {
+                    title: 'All Day Event',
+                    start: '2017-06-01'
+                },
+                {
+                    title: 'Long Event',
+                    start: '2017-06-01',
+                    end: '2017-06-10'
+                },
+                {
+                    id: 999,
+                    title: 'Repeating Event',
+                    start: '2017-06-09T16:00:00'
+                },
+                {
+                    id: 999,
+                    title: 'Repeating Event',
+                    start: '2017-06-16T16:00:00'
+                },
+                {
+                    title: 'Conference',
+                    start: '2017-06-11',
+                    end: '2017-06-13'
+                },
+                {
+                    title: 'Meeting',
+                    start: '2017-06-12T10:30:00',
+                    end: '2017-06-12T12:30:00'
+                },
+                {
+                    title: 'Lunch',
+                    start: '2017-06-12T12:00:00'
+                },
+                {
+                    title: 'Meeting',
+                    start: '2017-06-12T14:30:00'
+                },
+                {
+                    title: 'Happy Hour',
+                    start: '2017-06-12T17:30:00'
+                },
+                {
+                    title: 'Dinner',
+                    start: '2017-06-12T20:00:00'
+                },
+                {
+                    title: 'Birthday Party',
+                    start: '2017-06-13T07:00:00'
+                },
+                {
+                    title: 'Click for Google',
+                    url: 'http://google.com/',
+                    start: '2017-06-28'
+                }
+            ], //todo  이쪽잉  나중에 뿌려질곳 --- 조회 쪽
+            dayClick: function (date, jsEvent, view, resource) {
+                console.log(
+                    'dayClick',
+                    date.format(),
+                    resource ? resource.id : '(no resource)'
+                );
+
+            }
+
+
+//            eventSources: [
+//                '/eventSource1.json',
+//                '/eventSource2.json'
+//                // your event source
+////                {
+////                    dayClick: function () {
+////                        //todo  날짜 눌렀을 때  이벤트  처리
+////                        alert('a day has been clicked!');
+////                    }
+////                }
+//            ]
+//            defaultView: 'agendaDay',
+//            events: [
+//                // events go here
+//            ],
+//            resources: [
+//                {id: 'a', title: 'Room A'},
+//                {id: 'b', title: 'Room B'},
+//                {id: 'c', title: 'Room C'},
+//                {id: 'd', title: 'Room D'}
+//            ]
+//            dayClick: function () {
+//                //todo  날짜 눌렀을 때  이벤트  처리
+////                alert('a day has been clicked!');
+//                // todo  클릭시  레이아웃  생성  -  레이아웃은  정적인 부분은  만들어놓고  날짜랑  요일 부분  바뀌는 부분만  동적으로  바뀐다 .  클릭시
+//                //todo  해당  클릭한  날짜랑  요일 값  가지고 와줘 야 한다 .
+//            },
+//
+//            dayDraw: function () {
+//                //todo  날짜 눌렀을 때  이벤트  처리
+//                alert('a day has been clicked!');
+//            }
+
+
+        });
+    });
+
+</script>
+
+
+<!-- Small modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm">Small modal
+</button>
+
+
+<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="myModal">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            ...
+        </div>
+    </div>
+</div>
+
+<script>
+    $(".btn-primary").click(function () {
+        $("#myModal").modal();
+    });
+</script>
+</html>
+
