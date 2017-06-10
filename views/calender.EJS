@@ -5,7 +5,6 @@
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
     <!-- 합쳐지고 최소화된 최신 CSS -->
     <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"> -->
@@ -21,7 +20,8 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.css"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.print.css"></script>
         -->
-
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    s
     <link href='http://fonts.googleapis.com/css?family=Lato:100,400,700' rel='stylesheet'/>
     <link href='//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.6.0/fullcalendar.min.css' rel='stylesheet'/>
     <link href='//cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.6.0/fullcalendar.print.css' rel='stylesheet' media='print'/>
@@ -56,6 +56,8 @@
                 center: 'title',
                 right: 'month,agendaWeek,agendaDay,listWeek'
             },
+            selectable: true, // 범위 선택 가능 하게 만들어준다
+//            selectHelper: true,
 //            defaultDate: '2017-09-12',
             navLinks: true, // can click day/week names to navigate views
             editable: true,
@@ -122,7 +124,24 @@
                     date.format(),
                     resource ? resource.id : '(no resource)'
                 );
+                $('#data').text(date.format());
+            },
+            eventDragStop: function () { // 일정을  drag 햇을때
+            },
 
+            eventDrop: function () { // 이것도  일정 관련  drag 관련해서  처리할때
+            },
+            select: function (start, end, jsEvent, view, resource) {
+                // 원래  형태로  바꿔준다 .
+                var start_date = start._d.getFullYear() + '-' + start._d.getMonth() + '-' + start._d.getDate()
+                var end_date = end._d.getFullYear() + '-' + end._d.getMonth() + '-' + end._d.getDate();
+                var date = start_date + ' ~ ' + end_date
+                $('#date').text(date);
+                $('#modal_button').trigger('click')
+            },
+            dayDraw: function () {
+                //todo  날짜 눌렀을 때  이벤트  처리
+                alert('a day has been clicked!');
             }
 
 
@@ -147,42 +166,37 @@
 //                {id: 'c', title: 'Room C'},
 //                {id: 'd', title: 'Room D'}
 //            ]
-//            dayClick: function () {
-//                //todo  날짜 눌렀을 때  이벤트  처리
-////                alert('a day has been clicked!');
-//                // todo  클릭시  레이아웃  생성  -  레이아웃은  정적인 부분은  만들어놓고  날짜랑  요일 부분  바뀌는 부분만  동적으로  바뀐다 .  클릭시
-//                //todo  해당  클릭한  날짜랑  요일 값  가지고 와줘 야 한다 .
-//            },
-//
-//            dayDraw: function () {
-//                //todo  날짜 눌렀을 때  이벤트  처리
-//                alert('a day has been clicked!');
-//            }
-
-
         });
     });
-
 </script>
 
-
-<!-- Small modal -->
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm">Small modal
+<!--레이아웃  테스트  -->
+<button type="button" id="modal_button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" style="display:none;">
+    Open Modal
 </button>
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
 
-
-<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="myModal">
-    <div class="modal-dialog modal-sm">
+        <!-- Modal content-->
         <div class="modal-content">
-            ...
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">일정 탭 </h4>
+                <h4 class="modal-title">시간 탭 r</h4>
+            </div>
+            <div class="modal-body">
+                <p>일정</p>
+                <input type="text" name="schedule_contents" placeholder="예: 오후 7시에 멕시코 음식점에서 저녁식사" autofocus=""></input><br/>
+                시간<br/> <span id="date"> </span>
+            </div>1
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn reg" data-dismiss="modal">일정 생성</button>
+                <button type="button" class="btn modi" data-dismiss="modal">일정 수정</button>
+            </div>
         </div>
+
     </div>
 </div>
-
-<script>
-    $(".btn-primary").click(function () {
-        $("#myModal").modal();
-    });
-</script>
 </html>
 
