@@ -1,0 +1,173 @@
+<html>
+  <head>
+  <title><%= title %></title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+
+    <!-- 합쳐지고 최소화된 최신 CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+    <!-- 부가적인 테마 -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/boots  trap/3.3.2/css/bootstrap-theme.min.css">
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+    <!--<script src="/event.js"></script>-->
+
+  </head>
+  <body>
+  <h1></h1>
+    <h1>Loop it!!!!</h1>
+    <!--
+    <ul>
+        <% for(var i=0; i<length; i++){ %>
+            <li>
+                <%= "LOOP" + i %>
+            </li>
+        <% } %>
+    </ul>
+    -->
+    <div class="btn-group" role="group" aria-label="...">
+      <button type="button" id="kakao-login-btn" class="btn btn-default">카카오자동로그인</button>
+      <button type="button" id="send">보내기2</button>
+      <button type="button" id="restLogin">rest로 로그인 </button>
+      <button type="button" id="ajaxtest">ajax로 post </button>
+
+       <input type="text" id="msg" />
+          <input type="button" id="ajax_test" value="ajax_test" />
+          <div id="result"></div>
+          <script>
+            $('#ajax_test').click( function() {
+                $('#result').html('');
+                $.ajax({
+                    url: 'http://localhost:3000/ajax',
+                    dataType: 'json',
+                    type: 'POST',
+                    data: {'msg':$('#msg').val()},
+                    success: function(result) {
+                        if ( result['result'] == true ) {
+                            $('#result').html(result['msg']);
+                        }
+                    }
+                });
+            })
+          </script>
+
+
+
+      <script>
+       $('#restLogin').click(function(){
+
+              alert('aaa');
+      });
+
+       $('#ajaxtest').click(function(){
+
+              //var oParams = {'testParams':'111'};
+              var oParams = '111';
+              $.ajax({
+                       dataType: "json",
+                       url:'/ajaxtest',
+                       type:'post',
+                       data:{'params' :oParams},
+                       success:function(data){
+                       console.log('data');
+                       console.log(data);
+                       console.log('data end');
+                       }
+
+              });
+      });
+
+      var oTocken = {};
+      var sTocken = '';
+              $('#kakao-login-btn').click(function(){
+                 Kakao.init('88194590ac5f2b7863f1732637a592c5');
+                    // 카카오 로그인 버튼을 생성합니다.
+                    Kakao.Auth.createLoginButton({
+                      container: '#kakao-login-btn',
+                      success: function(authObj) {
+                        oTocken = authObj;
+                        sTocken = authObj.access_token;
+                        alert(JSON.stringify(authObj));
+
+
+                        //보내기 이벤트 등록
+                                      $(document).delegate('#send','click',function(){
+                                            $.ajaxPrefilter('json', function(options, orig, jqXHR) {
+                        		                return 'jsonp';
+                        		            });
+                                            console.log(222);
+                                            console.log('Bearer ' +sTocken);
+                                            var template = {
+                                                             "object_type": "feed",
+                                                             "content": {
+                                                               "title": "디저트 사진",
+                                                               "description": "아메리카노, 빵, 케익",
+                                                               "image_url": "http://mud-kage.kakao.co.kr/dn/NTmhS/btqfEUdFAUf/FjKzkZsnoeE4o19klTOVI1/openlink_640x640s.jpg",
+                                                               "image_width": 640,
+                                                               "image_height": 640,
+                                                               "link": {
+                                                                 "web_url": "http://www.daum.net",
+                                                                 "mobile_web_url": "http://m.daum.net",
+                                                                 "android_execution_params": "contentId=100",
+                                                                 "ios_execution_params": "contentId=100"
+                                                               }
+                                                             },
+                                                             "social": {
+                                                               "like_count": 100,
+                                                               "comment_count": 200,
+                                                               "shared_count": 300,
+                                                               "view_count": 400,
+                                                               "subscriber_count": 500
+                                                             },
+                                                             "buttons": [
+                                                               {
+                                                                 "title": "웹으로 이동",
+                                                                 "link": {
+                                                                   "web_url": "http://www.daum.net",
+                                                                   "mobile_web_url": "http://m.daum.net"
+                                                                 }
+                                                               },
+                                                               {
+                                                                 "title": "앱으로 이동",
+                                                                 "link": {
+                                                                   "android_execution_params": "contentId=100",
+                                                                   "ios_execution_params": "contentId=100"
+                                                                 }
+                                                               }
+                                                             ]
+                                                           };
+                                            $.ajax({
+                                                       headers: {'Authorization': 'Bearer ' +sTocken},
+                                                       dataType: "json",
+                                                       crossDomain: true,
+                                                       url:'https://kapi.kakao.com/v2/api/talk/memo/default/send',
+                                                       type:'post',
+                                                       data:{'template_object' :template},
+                                                       success:function(data){
+                                                       console.log('data');
+                                                       console.log(data);
+                                                       console.log('data end');
+                                                       }
+                                                       })
+                                      })
+
+
+
+
+                      },
+                      fail: function(err) {
+                         console.log(15)
+                                                 console.log(err)
+                         alert(JSON.stringify(err));
+                      }
+                    });
+              });
+
+
+          </script>
+    </div>
+
+  </body>
+</html>
