@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="ec2-52-79-166-70.ap-northeast-2.compute.amazonaws.com" uuid="73aac1ca-dbbd-49cb-b758-d5412d8db590">
+    <data-source source="LOCAL" name="@ec2-52-79-166-70.ap-northeast-2.compute.amazonaws.com [2]" uuid="73aac1ca-dbbd-49cb-b758-d5412d8db590">
       <driver-ref>mysql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
-      <jdbc-url>ec2-52-79-166-70.ap-northeast-2.compute.amazonaws.com</jdbc-url>
+      <jdbc-url>jdbc:mysql://ec2-52-79-166-70.ap-northeast-2.compute.amazonaws.com:3306</jdbc-url>
       <driver-properties>
         <property name="autoReconnect" value="true" />
         <property name="zeroDateTimeBehavior" value="convertToNull" />

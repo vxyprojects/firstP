@@ -241,8 +241,27 @@ module.exports = function (app, fs) {
 
 
     app.get('/calender_view', function (req, res) {
+        var mysql = require('mysql');
+        var connection = mysql.createConnection({
+            host: 'xxxxxxxxxxx',
+            user: 'root',
+            password: '',
+            port: '3306',
+            database: 'test'
+        });
+
+        connection.connect();
+
+        connection.query('SELECT * from t_chat', function (err, rows, fields) {
+            if (!err)
+                console.log('The solution is: ', rows);
+            else
+                console.log('Error while performing Query.', err);
+        });
+
 
         res.render('calender', {})
+
     });
 
 

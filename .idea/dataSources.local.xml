@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="dataSourceStorageLocal">
+    <data-source name="@ec2-52-79-166-70.ap-northeast-2.compute.amazonaws.com [2]" uuid="73aac1ca-dbbd-49cb-b758-d5412d8db590">
+      <database-info product="MySQL" version="5.5.5-10.1.19-MariaDB" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.40 ( Revision: 402933ef52cad9aa82624e80acbea46e3a701ce6 )">
+        <extra-name-characters>#@</extra-name-characters>
+        <identifier-quote-string>`</identifier-quote-string>
+      </database-info>
+      <case-sensitivity plain-identifiers="exact" quoted-identifiers="exact" />
+      <secret-storage>master_key</secret-storage>
+      <user-name>root</user-name>
+      <resolve-scope>:</resolve-scope>
+    </data-source>
+    <data-source name="" uuid="c5479537-634a-42c0-9ed5-fdb32261abc2">
+      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" />
+      <secret-storage>master_key</secret-storage>
+      <first-sync>true</first-sync>
+      <ssh-properties>
+        <enabled>true</enabled>
+        <proxy-host>ec2-52-79-166-70.ap-northeast-2.compute.amazonaws.com</proxy-host>
+        <proxy-port>3308</proxy-port>
+        <secret-storage>master_key</secret-storage>
+        <user>ec2-user</user>
+        <use-password>true</use-password>
+        <password>df9bdf9bdf9bdf9b</password>
+      </ssh-properties>
+    </data-source>
+    <data-source name="@ec2-52-79-166-70.ap-northeast-2.compute.amazonaws.com" uuid="494aa001-6deb-432f-b9a1-8b31b7804c2b">
+      <database-info product="MySQL" version="5.5.5-10.1.19-MariaDB" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.40 ( Revision: 402933ef52cad9aa82624e80acbea46e3a701ce6 )">
+        <extra-name-characters>#@</extra-name-characters>
+        <identifier-quote-string>`</identifier-quote-string>
+      </database-info>
+      <case-sensitivity plain-identifiers="exact" quoted-identifiers="exact" />
+      <secret-storage>master_key</secret-storage>
+      <first-sync>true</first-sync>
+      <user-name>ec2-user</user-name>
+      <ssh-properties>
+        <enabled>true</enabled>
+        <proxy-host>ec2-52-79-166-70.ap-northeast-2.compute.amazonaws.com</proxy-host>
+        <proxy-port>22</proxy-port>
+        <secret-storage>master_key</secret-storage>
+        <user>ec2-user</user>
+        <use-password>true</use-password>
+        <private-key-path>C:\Users\lsw\Downloads\swleeTestServer.pem</private-key-path>
+      </ssh-properties>
+    </data-source>
+  </component>
+</project>
