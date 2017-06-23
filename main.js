@@ -244,10 +244,28 @@ module.exports = function (app, fs) {
         });
 
         connection.connect();
-        console.log('req.body.start_date')
-        console.log(req.body.start_date)
-        console.log('req.body.end_date')
-        console.log(req.body.end_date)
+        var oReturnData = {};
+        connection.query('SELECT cal_no FROM vxy_cal  ORDER BY cal_no desc limit 1', function (err, rows, fields) {
+            if (!err) {
+                console.log(rows)
+                oReturnData['seq_no'] = rows;
+            } else {
+
+                console.log('Error while performing Query.', err);
+            }
+        });
+
+
+        //select  으로  현재  seq no 를  받게 될  넘버를  알아내긴  해야할듯
+        // return  값   만들어줘야한다 .
+//        console.log('req.body.start_date')
+//        console.log(req.body.start_date)
+//        console.log('req.body.end_date')
+//        console.log(req.body.end_date)
+
+        oReturnData['start'] = req.body.start_date
+        oReturnData['end'] = req.body.end_date
+        oReturnData['title'] = req.body.schedule_contents
 
 
         //auto incremoent 처리하는 법
@@ -266,7 +284,13 @@ module.exports = function (app, fs) {
 
                 if (!err) {
                     //todo 여기가  에러 나고있다.
-                    res.send('no error');
+//                    res.send('calender', {
+//                        cal_data: JSON.stringify(rows)
+//                    })
+//                    res.send('no error');
+                    res.send({
+                        return_data: JSON.stringify(oReturnData)
+                    });
                 }
                 else {
                     console.log(err);
