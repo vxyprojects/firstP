@@ -35,7 +35,7 @@
 <h1>캘린더 테스트 </h1>
 <!-- test-->
 <div id='calendar'></div>
-
+<input type="hidden" id="cal_data" value="<%= cal_data %>">
 <!--- modal  테스트 -->
 <!--
 <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
@@ -50,6 +50,34 @@
 <script>
 
     $(document).ready(function () {
+
+        // event 데이타  만들어준다.
+        var aEvent = [];
+        var aEvent1 = [];
+        var oEventItem = {};
+
+
+        var sCalData = $('#cal_data').val()
+        var oJsonCalData = JSON.parse(sCalData);
+
+        //todo  -- reg  색깔 값도 필요 할듯
+        for (idx in oJsonCalData) {
+            var oMakeData = {};
+            for (sKey in  oJsonCalData[idx]) {
+                if (sKey === 'cal_text') {
+                    oMakeData['title'] = oJsonCalData[idx][sKey]
+                } else if (sKey === 'start_date' && oJsonCalData[idx][sKey] !== '') {
+                    oMakeData['start'] = oJsonCalData[idx][sKey]
+                } else if (sKey === 'end_date' && oJsonCalData[idx][sKey] !== '') {
+                    oMakeData['end'] = oJsonCalData[idx][sKey]
+                }
+                else {
+                    oMakeData[sKey] = oJsonCalData[idx][sKey]
+                }
+            }
+            aEvent.push(oMakeData);
+        }
+
         $('#calendar').fullCalendar({
             header: {
                 left: 'prev,next today',
@@ -62,62 +90,67 @@
             navLinks: true, // can click day/week names to navigate views
             editable: true,
             eventLimit: true, // allow "more" link when too many events
-            events: [
-                {
-                    title: 'All Day Event',
-                    start: '2017-06-01'
-                },
-                {
-                    title: 'Long Event',
-                    start: '2017-06-01',
-                    end: '2017-06-10'
-                },
-                {
-                    id: 999,
-                    title: 'Repeating Event',
-                    start: '2017-06-09T16:00:00'
-                },
-                {
-                    id: 999,
-                    title: 'Repeating Event',
-                    start: '2017-06-16T16:00:00'
-                },
-                {
-                    title: 'Conference',
-                    start: '2017-06-11',
-                    end: '2017-06-13'
-                },
-                {
-                    title: 'Meeting',
-                    start: '2017-06-12T10:30:00',
-                    end: '2017-06-12T12:30:00'
-                },
-                {
-                    title: 'Lunch',
-                    start: '2017-06-12T12:00:00'
-                },
-                {
-                    title: 'Meeting',
-                    start: '2017-06-12T14:30:00'
-                },
-                {
-                    title: 'Happy Hour',
-                    start: '2017-06-12T17:30:00'
-                },
-                {
-                    title: 'Dinner',
-                    start: '2017-06-12T20:00:00'
-                },
-                {
-                    title: 'Birthday Party',
-                    start: '2017-06-13T07:00:00'
-                },
-                {
-                    title: 'Click for Google',
-                    url: 'http://google.com/',
-                    start: '2017-06-28'
-                }
-            ], //todo  이쪽잉  나중에 뿌려질곳 --- 조회 쪽
+//            events: aEvent,
+//            eventColor: '#378006', // default  칼라인듯
+            // color: 'yellow',  이런식으로  입력 받으면 될듯 하다
+            //#378006  이런식도 당연히  먹히네
+//            events: [
+//                {
+//                    title: 'All Day Event',
+//                    start: '2017-06-01',
+//                    color: '#378006',
+//                },
+//                {
+//                    title: 'Long Event',
+//                    start: '2017-06-01',
+//                    end: '2017-06-10'
+//                },
+//                {
+//                    id: 999,
+//                    title: 'Repeating Event',
+//                    start: '2017-06-09T16:00:00'
+//                },
+//                {
+//                    id: 999,
+//                    title: 'Repeating Event',
+//                    start: '2017-06-16T16:00:00'
+//                },
+//                {
+//                    title: 'Conference',
+//                    start: '2017-06-11',
+//                    end: '2017-06-13'
+//                },
+//                {
+//                    title: 'Meeting',
+//                    start: '2017-06-12T10:30:00',
+//                    end: '2017-06-12T12:30:00'
+//                },
+//                {
+//                    title: 'Lunch',
+//                    start: '2017-06-12T12:00:00'
+//                },
+//                {
+//                    title: 'Meeting',
+//                    start: '2017-06-12T14:30:00'
+//                },
+//                {
+//                    title: 'Happy Hour',
+//                    start: '2017-06-12T17:30:00'
+//                },
+//                {
+//                    title: 'Dinner',
+//                    start: '2017-06-12T20:00:00'
+//                },
+//                {
+//                    title: 'Birthday Party',
+//                    start: '2017-06-13T07:00:00'
+//                },
+//                {
+//                    title: 'Click for Google',
+//                    url: 'http://google.com/',
+//                    start: '2017-06-28'
+//                }
+//            ],
             dayClick: function (date, jsEvent, view, resource) {
                 console.log(
                     'dayClick',
@@ -133,10 +166,28 @@
             },
             select: function (start, end, jsEvent, view, resource) {
                 // 원래  형태로  바꿔준다 .
-                var start_date = start._d.getFullYear() + '-' + start._d.getMonth() + '-' + start._d.getDate()
-                var end_date = end._d.getFullYear() + '-' + end._d.getMonth() + '-' + end._d.getDate();
-                var date = start_date + ' ~ ' + end_date
+                var start_date = start._d.getFullYear() + '-' + (start._d.getMonth() + 1) + '-' + start._d.getDate()
+                var end_date = end._d.getFullYear() + '-' + (end._d.getMonth() + 1) + '-' + end._d.getDate();
+
+                //요일 구하기
+                var week = new Array('일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일');
+                var start_week = start._d.getDay();
+                var end_week = end._d.getDay();
+                var startLabel = week[start_week];
+                var endLabel = week[end_week];
+
+                var date = ''
+                var makedate = ''
+                if (parseInt($('.fc-highlight').attr('colspan')) > 1) {
+                    date = start_date + ' (' + startLabel + ')' + ' ~ ' + end_date + '( ' + endLabel + ' )';
+                    makedate = start_date + '~' + end_date
+                } else {
+                    date = start_date + ' (' + startLabel + ')';
+                    makedate = start_date + '~'
+                }
+
                 $('#date').text(date);
+                $('#makeDate').val(makedate)
                 $('#modal_button').trigger('click')
             },
             dayDraw: function () {
@@ -167,6 +218,46 @@
 //                {id: 'd', title: 'Room D'}
 //            ]
         });
+
+        $('.reg').click(function (e) {
+            var start_date = $(this).parent().parent().find('.modal-body').find('#makeDate').val().split('~')[0]
+            var end_date = $(this).parent().parent().find('.modal-body').find('#makeDate').val().split('~')[1]
+            var schedule_contents = $('input[name="schedule_contents"]').val();
+            var oParams = {
+                'start_date': start_date,
+                'end_date': end_date,
+                'schedule_contents': schedule_contents
+            };
+            $.ajax({
+                dataType: "json",
+                url: '/reg_date',
+                type: 'post',
+                data: oParams,
+                success: function (data) {
+                    console.log('data');
+                    console.log(data);
+                    console.log('data end');
+                }
+            });
+
+            e.preventDefault()
+            return false;
+        })
+        $('.modi').click(function (e) {
+            $.ajax({
+                dataType: "json",
+                url: '/modi_date',
+                type: 'post',
+                data: {'params': oParams},
+                success: function (data) {
+                    console.log('data');
+                    console.log(data);
+                    console.log('data end');
+                }
+            });
+            e.preventDefault()
+            return false;
+        })
     });
 </script>
 
@@ -187,13 +278,12 @@
             <div class="modal-body">
                 <p>일정</p>
                 <input type="text" name="schedule_contents" placeholder="예: 오후 7시에 멕시코 음식점에서 저녁식사" autofocus=""></input><br/>
-                시간<br/> <span id="date"> </span>
+                시간<br/> <span id="date"> </span> <input type="hidden" id="makeDate" value=""/>
             </div>
-            1
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn reg" data-dismiss="modal">일정 생성</button>
-                <button type="button" class="btn modi" data-dismiss="modal">일정 수정</button>
+                <button type="button" class="reg" data-dismiss="modal">일정 생성</button>
+                <button type="button" class="modi" data-dismiss="modal">일정 수정</button>
             </div>
         </div>
 

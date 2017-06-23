@@ -12,13 +12,6 @@ module.exports = function (app, fs) {
     });
 
     app.get('/oauth', function (req, res) {
-//        console.log(1231)
-//        console.log(res)
-//        console.log(req)
-//        console.log(req.body)
-//        var title = req.body.title;
-//        var description = req.body.description;
-//        res.render('oauth')
 
 
         var stest = `<!DOCTYPE html>
@@ -239,11 +232,57 @@ module.exports = function (app, fs) {
         res.send(title + ',' + description);
     });
 
+    app.post('/reg_date', function (req, res) {
 
-    app.get('/calender_view', function (req, res) {
         var mysql = require('mysql');
         var connection = mysql.createConnection({
-            host: 'xxxxxxxxxxx',
+            host: 'ec2-52-79-166-70.ap-northeast-2.compute.amazonaws.com',
+            user: 'root',
+            password: '',
+            port: '3306',
+            database: 'test'
+        });
+
+        connection.connect();
+        console.log('req.body.start_date')
+        console.log(req.body.start_date)
+        console.log('req.body.end_date')
+        console.log(req.body.end_date)
+
+
+        //auto incremoent 처리하는 법
+        var myResponse = {
+            cal_text: req.body.schedule_contents,
+            user_id: 'user_id2',
+            user_name: 'user_name',
+            start_date: req.body.start_date,
+            end_date: req.body.end_date,
+            start_time: 'start_time',
+            end_time: 'end_time'
+        };
+
+        connection.query('INSERT INTO vxy_cal SET ?',
+            myResponse, function (err, result) {
+
+                if (!err) {
+                    //todo 여기가  에러 나고있다.
+                    res.send('no error');
+                }
+                else {
+                    console.log(err);
+                }
+            });
+    });
+
+    app.post('/modi_date', function (req, res) {
+        var body = req.body;
+        //todo calno 를
+        //bar에  calno 를 가지고 있어야 한다 . 그래서  클릭 했을때  calno와  관련된  데이타 값  뿌려주곳
+
+
+        var mysql = require('mysql');
+        var connection = mysql.createConnection({
+            host: 'ec2-52-79-166-70.ap-northeast-2.compute.amazonaws.com',
             user: 'root',
             password: '',
             port: '3306',
@@ -252,15 +291,57 @@ module.exports = function (app, fs) {
 
         connection.connect();
 
-        connection.query('SELECT * from t_chat', function (err, rows, fields) {
-            if (!err)
-                console.log('The solution is: ', rows);
-            else
-                console.log('Error while performing Query.', err);
+
+        //auto incremoent 처리하는 법  modi  처리
+        var myResponse = {
+            cal_text: req.body.schedule_contents,
+            user_id: 'user_id2',
+            user_name: 'user_name',
+            start_date: req.body.start_date,
+            end_date: req.body.end_date,
+            start_time: 'start_time',
+            end_time: 'end_time'
+        };
+
+
+//        connection.query('update vxy_cal set area = ? where idx=?',
+//            myResponse, function (err, result) {
+//
+//                if (!err) {
+//                    //todo 여기가  에러 나고있다.
+//                    res.send('no error');
+//                }
+//                else {
+//                    console.log(err);
+//                }
+//            });
+
+
+    });
+
+
+    app.get('/calender_view', function (req, res) {
+
+        var mysql = require('mysql');
+        var connection = mysql.createConnection({
+            host: 'ec2-52-79-166-70.ap-northeast-2.compute.amazonaws.com',
+            user: 'root',
+            password: '',
+            port: '3306',
+            database: 'test'
         });
+        connection.connect();
+        connection.query('SELECT * from vxy_cal', function (err, rows, fields) {
+            if (!err) {
+//                console.log('The solution is: ', rows);
+                res.render('calender', {
+                    cal_data: JSON.stringify(rows)
+                })
+            } else {
 
-
-        res.render('calender', {})
+                console.log('Error while performing Query.', err);
+            }
+        });
 
     });
 
@@ -356,4 +437,5 @@ module.exports = function (app, fs) {
     app.get('/test', function (req, res) {
         res.render('test');
     });
-};
+}
+;
