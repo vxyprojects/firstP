@@ -247,39 +247,12 @@ module.exports = function (app, fs) {
         var oReturnData = {};
         connection.query('SELECT cal_no FROM vxy_cal  ORDER BY cal_no desc limit 1', function (err, rows, fields) {
             if (!err) {
-//                console.log('rows');
-//                console.log(rows);
-//                console.log(111);
-//                console.log(JSON.parse(rows));
-//                console.log(222);
-//                console.log(typeof JSON.parse(rows));
-
-//                console.log(typeof  rows);
-//                console.log(rows['RowDataPacket']);
-//
-//                console.log('row');
-//                console.log(rows['cal_no']);
-//                console.log('cal_no');
-//                console.log('stringfy');
-//                console.log(JSON.stringify(rows));
-
-//                console.log(typeof  JSON.stringify(rows));
-
                 oReturnData['seq_no'] = rows;
-//                oReturnData['seq_no'] = rows.cal_no;
             } else {
 
                 console.log('Error while performing Query.', err);
             }
         });
-
-
-        //select  으로  현재  seq no 를  받게 될  넘버를  알아내긴  해야할듯
-        // return  값   만들어줘야한다 .
-//        console.log('req.body.start_date')
-//        console.log(req.body.start_date)
-//        console.log('req.body.end_date')
-//        console.log(req.body.end_date)
 
         oReturnData['start'] = req.body.start_date
         oReturnData['end'] = req.body.end_date
@@ -296,16 +269,9 @@ module.exports = function (app, fs) {
             start_time: 'start_time',
             end_time: 'end_time'
         };
-
         connection.query('INSERT INTO vxy_cal SET ?',
             myResponse, function (err, result) {
-
                 if (!err) {
-                    //todo 여기가  에러 나고있다.
-//                    res.send('calender', {
-//                        cal_data: JSON.stringify(rows)
-//                    })
-//                    res.send('no error');
                     res.send({
                         return_data: JSON.stringify(oReturnData)
                     });
