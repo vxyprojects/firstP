@@ -2,7 +2,14 @@
 <head>
     <meta charset="utf-8"/>
     <title></title>
-
+    <style>
+        <!--
+        todo 시간 보여지는거 display none 처리 함
+        -->
+        .fc-time {
+            display: none;
+        }
+    </style>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
 
@@ -159,13 +166,20 @@
                 type: 'post',
                 data: oParams,
                 success: function (data) {
+                    data.return_data = JSON.parse(data.return_data)
                     console.log('data');
                     console.log(data.return_data);
                     console.log('data end');
+                    var event = {
+                        id: data.return_data.seq_no[0].cal_no,
+                        title: data.return_data.title,
+                        start: new Date(data.return_data.start),
+                        end: new Date(data.return_data.end)
+                    };
+                    $('#calendar').fullCalendar('renderEvent', event, true);
 
-//                    var event={id:1 , title: 'New event', start:  new Date()};
-//                    $('#calendar').fullCalendar('renderEvent', data.return_data, true);
-                    $('#calendar').fullCalendar('addEventSource', data.return_data)
+                    //12a 가 머지 근데 ??
+
 
                     // 마지막  닫아준다 .
                     $('.reg').parent().find('.btn-default').trigger('click');

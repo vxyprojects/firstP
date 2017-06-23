@@ -247,8 +247,26 @@ module.exports = function (app, fs) {
         var oReturnData = {};
         connection.query('SELECT cal_no FROM vxy_cal  ORDER BY cal_no desc limit 1', function (err, rows, fields) {
             if (!err) {
-                console.log(rows)
+//                console.log('rows');
+//                console.log(rows);
+//                console.log(111);
+//                console.log(JSON.parse(rows));
+//                console.log(222);
+//                console.log(typeof JSON.parse(rows));
+
+//                console.log(typeof  rows);
+//                console.log(rows['RowDataPacket']);
+//
+//                console.log('row');
+//                console.log(rows['cal_no']);
+//                console.log('cal_no');
+//                console.log('stringfy');
+//                console.log(JSON.stringify(rows));
+
+//                console.log(typeof  JSON.stringify(rows));
+
                 oReturnData['seq_no'] = rows;
+//                oReturnData['seq_no'] = rows.cal_no;
             } else {
 
                 console.log('Error while performing Query.', err);
