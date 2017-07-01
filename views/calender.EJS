@@ -134,23 +134,38 @@
 //                console.log('drag stop')
             },
             eventDrop: function (event, dayDelta, minuteDelta, allDay, revertFunc) { // 이것도  일정 관련  drag 관련해서  처리할때
-//                console.log('draging')
-                //todo dragging  event
-//                alert(
-//                    event.title + " was moved " +
-//                    dayDelta + " days and " +
-//                    minuteDelta + " minutes."
-//                );
-//
-//                if (allDay) {
-//                    alert("Event is now all-day");
-//                } else {
-//                    alert("Event has a time-of-day");
-//                }
-//
-//                if (!confirm("Are you sure about this change?")) {
-//                    revertFunc();
-//                }
+                var sStartBeforeDate = '';
+                var sStartAfterDate = '';
+                var sEndBeforeDate = '';
+                var sEndAfterDate = '';
+                if (Object.keys(event.start).length > 0) {
+                    sStartBeforeDate = event.start._i;
+                    sStartAfterDate = oCalendarUtil.makeCalType(event.start._d, 'start');
+                }
+
+                if (Object.keys(event.end).length > 0) {
+                    sEndAfterDate = oCalendarUtil.makeCalType(event.end._d, 'end');
+                    sEndBeforeDate = event.end._i;
+                }
+
+                var oRequestParam = {
+                    calNo: event.id,
+//                    sStartBeforeDate: sStartBeforeDate,
+//                    sEndBeforeDate: sEndBeforeDate
+                    sStartAfterDate: sStartAfterDate,
+                    sEndAfterDate: sEndAfterDate,
+                };
+
+                $.ajax({
+                    dataType: "json",
+                    url: '/modi_date',
+                    type: 'post',
+                    data: oRequestParam,
+                    success: function (data) {
+                        console.log('ajax result')
+                        console.log(JSON.parse(data.return_data))
+                    }
+                });
 
             },
             select: function (start, end, jsEvent, view, resource) {
@@ -158,7 +173,7 @@
                 $('input[name="schedule_contents"]').val('')
                 // 원래  형태로  바꿔준다 .
                 var start_date = start._d.getFullYear() + '-' + (start._d.getMonth() + 1) + '-' + start._d.getDate()
-                var end_date = end._d.getFullYear() + '-' + (end._d.getMonth() + 1) + '-' + end._d.getDate();
+                var end_date = end._d.getFullYear() + '-' + (end._d.getMonth() + 1) + '-' + (end._d.getDate());
 
                 //요일 구하기
                 var week = new Array('일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일');
@@ -860,6 +875,24 @@
         EYE.register(initLayout, 'init');
     })(jQuery)
 
+
+    var oCalendarUtil = {
+
+        makeCalType: function (date, type) {
+
+            var sCalType = '';
+            if (date) {
+                var day = date.getDate();
+                if (type === 'end') {
+                    day = date.getDate();
+                }
+                sCalType = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + day;
+            }
+
+            return sCalType;
+        }
+
+    };
 </script>
 </html>
 

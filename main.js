@@ -286,8 +286,6 @@ module.exports = function (app, fs) {
         var body = req.body;
         //todo calno 를
         //bar에  calno 를 가지고 있어야 한다 . 그래서  클릭 했을때  calno와  관련된  데이타 값  뿌려주곳
-
-
         var mysql = require('mysql');
         var connection = mysql.createConnection({
             host: 'ec2-52-79-166-70.ap-northeast-2.compute.amazonaws.com',
@@ -297,32 +295,21 @@ module.exports = function (app, fs) {
             database: 'test'
         });
 
-        connection.connect();
 
+        connection.connect(function (err) {
+            var sql = 'UPDATE vxy_cal SET start_date ="' + req.body.sStartAfterDate + '",  end_date ="' + req.body.sEndAfterDate + '"  WHERE cal_no=' + parseInt(req.body.calNo);
+            connection.query(sql, function (err, result) {
+                if (!err) {
+                    console.log(result.affectedRows + " record(s) updated");
+                    res.send({
+                        return_data: JSON.stringify(result)
+                    });
+                } else {
+                    console.log(err);
+                }
 
-        //auto incremoent 처리하는 법  modi  처리
-        var myResponse = {
-            cal_text: req.body.schedule_contents,
-            user_id: 'user_id2',
-            user_name: 'user_name',
-            start_date: req.body.start_date,
-            end_date: req.body.end_date,
-            start_time: 'start_time',
-            end_time: 'end_time'
-        };
-
-
-//        connection.query('update vxy_cal set area = ? where idx=?',
-//            myResponse, function (err, result) {
-//
-//                if (!err) {
-//                    //todo 여기가  에러 나고있다.
-//                    res.send('no error');
-//                }
-//                else {
-//                    console.log(err);
-//                }
-//            });
+            });
+        });
 
 
     });
