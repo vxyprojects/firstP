@@ -110,17 +110,17 @@
             },
             selectable: true,
             //	범위 선택 가능 하게 만들어준다
-			//	selectHelper: true,
-			//	defaultDate: '2017-09-12',
+            //	selectHelper: true,
+            //	defaultDate: '2017-09-12',
             navLinks: true, // can click day/week names to navigate views
             editable: true,
             eventLimit: true, // allow "more" link when too many events
             events: aEvent,
-			//  eventColor: '#378006',
-			//	default  칼라인듯
+            //  eventColor: '#378006',
+            //	default  칼라인듯
             //	color: 'yellow',  이런식으로  입력 받으면 될듯 하다
             //	#378006  이런식도 당연히  먹히네
-			//	],
+            //	],
             dayClick: function (date, jsEvent, view, resource) {
                 console.log(
                     'dayClick',
@@ -128,6 +128,55 @@
                     resource ? resource.id : '(no resource)'
                 );
                 $('#data').text(date.format());
+            },
+            eventClick: function (calEvent, jsEvent, view) {
+//                console.log(calEvent);
+//                console.log(calEvent.id);
+//                console.log('Event: ' + calEvent.title);
+                var oThis = $(this);
+                console.log(oThis)
+                console.log('oThis')
+
+                var oParam = {
+                    'cal_no': calEvent.id
+                };
+                $.ajax({
+                    dataType: "json",
+                    url: '/modi_view',
+                    type: 'post',
+                    data: oParam,
+                    success: function (data) {
+//                        console.log(data)
+                        var aReturnData = JSON.parse(data.cal_data)[0];
+                        var sCalNo = aReturnData.cal_no;
+                        var sCalText = aReturnData.cal_text;
+                        var sStartDate = aReturnData.start_date;
+                        var sEndDate = aReturnData.end_date;
+                        sStartDate = new Date(sStartDate)
+                        sEndDate = new Date(sEndDate)
+
+                        var start_week = sStartDate.getDay()
+                        var end_week = sEndDate.getDay()
+                        var startLabel = oCalendarUtil.week[start_week];
+                        var endLabel = oCalendarUtil.week[end_week];
+
+                        sStartDate = oCalendarUtil.makeCalType(sStartDate);
+                        sEndDate = oCalendarUtil.makeCalType(sEndDate);
+                        var aLayerData = oCalendarUtil.makeLayerData(oThis, sStartDate, startLabel, sEndDate, endLabel)
+                        console.log(aLayerData)
+                        aLayerData[0]
+                        aLayerData[1]
+                        $('#date').text(aLayerData[0]);
+                        $('#makeDate').val(aLayerData[1])
+                        $('.reg').css('display', 'none');
+                        $('.modi').css('display', 'block');
+                        $('#modal_button').trigger('click')
+//                            [date, makedate]
+                    }
+                });
+
+
+//                $('#modal_button').trigger('click')
             },
             eventDragStop: function () { // 일정을  drag 햇을때
 
@@ -168,6 +217,7 @@
                 });
             },
             select: function (start, end, jsEvent, view, resource) {
+
                 //초기화
                 $('input[name="schedule_contents"]').val('')
                 // 원래  형태로  바꿔준다 .
@@ -193,11 +243,17 @@
 
                 $('#date').text(date);
                 $('#makeDate').val(makedate)
+                $('.modi').css('display', 'none');
+                $('.reg').css('display', 'block');
                 $('#modal_button').trigger('click')
+
+                //css display none 처리  필요
+                $('input[name="schedule_contents"]').css('display', 'none');
+                $('.schedule').css('display', 'none');
             },
             dayDraw: function () {
-            //	todo  날짜 눌렀을 때  이벤트  처리
-			//	alert('a day has been clicked!');
+                //	todo  날짜 눌렀을 때  이벤트  처리
+                //	alert('a day has been clicked!');
             }
         });
 
@@ -269,12 +325,9 @@
                 <h4 class="modal-title">시간 탭 r</h4>
             </div>
             <div class="modal-body">
-                <p>일정</p>
+                <p class="schedule">일정</p>
                 <input type="text" name="schedule_contents" placeholder="예: 오후 7시에 멕시코 음식점에서 저녁식사" autofocus=""></input>
-                <br/>
-                시간<br/>
-                <span id="date"> </span>
-                <input type="hidden" id="makeDate" value=""/>
+                <br/> 시간<br/> <span id="date"> </span> <input type="hidden" id="makeDate" value=""/>
 
                 <!--
                 color picker --  해당 부분 나중에 처리
@@ -320,7 +373,7 @@
                 <button type="button" class="modi" data-dismiss="modal">일정 수정</button>
             </div>
         </div>
-		<!-- Modal content END-->
+        <!-- Modal content END-->
     </div>
 </div>
 <script>
@@ -877,7 +930,7 @@
 
 
     var oCalendarUtil = {
-
+        week: new Array('일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'),
         makeCalType: function (date, type) {
 
             var sCalType = '';
@@ -890,6 +943,21 @@
             }
 
             return sCalType;
+        }
+        , makeLayerData: function (oThis, start_date, startLabel, end_date, endLabel) {
+
+            var date = ''
+            var makedate = ''
+            // 아  bar  길이가  아니라  선택 영역이구나  여기   // 이함수  같이  쓰게 되면  이조건을  타입별로 바꿔야한다.
+            if (parseInt(oThis.parent().attr('colspan')) >= 2) {
+                date = start_date + ' (' + startLabel + ')' + ' ~ ' + end_date + '( ' + endLabel + ' )';
+                makedate = start_date + '~' + end_date
+            } else {
+                date = start_date + ' (' + startLabel + ')';
+                makedate = start_date + '~'
+            }
+
+            return [date, makedate];
         }
 
     };

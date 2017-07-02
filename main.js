@@ -1,48 +1,47 @@
 module.exports = function (app, fs) {
-	var mysql = require('mysql');
-	// 커넥션 풀 생성
-	var pool = mysql.createPool({
-	    host :'ec2-52-79-166-70.ap-northeast-2.compute.amazonaws.com',
-	    port : '3306',
-	    user : 'root',
-	    password : '',
-	    database:'test',
-	    connectionLimit:20,
-	    waitForConnections:false
-	});
+    var mysql = require('mysql');
+    // 커넥션 풀 생성
+    var pool = mysql.createPool({
+        host: 'ec2-52-79-166-70.ap-northeast-2.compute.amazonaws.com',
+        port: '3306',
+        user: 'root',
+        password: '',
+        database: 'test',
+        connectionLimit: 20,
+        waitForConnections: false
+    });
 
-	/*
-	 * 동일 커넥션 처리가 없을 경우 사용 1번
-	 *
-	pool.query('SELECT 1 + 1 AS solution', function(err, rows, fields) {
-	  if (err) throw err;
-	  console.log('The solution is: ', rows[0].solution);
-	});
-	*/
+    /*
+     * 동일 커넥션 처리가 없을 경우 사용 1번
+     *
+     pool.query('SELECT 1 + 1 AS solution', function(err, rows, fields) {
+     if (err) throw err;
+     console.log('The solution is: ', rows[0].solution);
+     });
+     */
 
-	/*
-	 * 동일 커넥션 처리가필요할 경우 사용 2번 (트렌잭션 자동 증가 값등 기타등등..)
-	 *
-	pool.getConnection(function(err, connection) {
-	  // Use the connection
-	  connection.query( 'SELECT something FROM sometable', function(err, rows) {
-	    // And done with the connection.
-	    connection.release();
+    /*
+     * 동일 커넥션 처리가필요할 경우 사용 2번 (트렌잭션 자동 증가 값등 기타등등..)
+     *
+     pool.getConnection(function(err, connection) {
+     // Use the connection
+     connection.query( 'SELECT something FROM sometable', function(err, rows) {
+     // And done with the connection.
+     connection.release();
 
-	    // Don't use the connection here, it has been returned to the pool.
-	  });
-	});
-	*/
-
+     // Don't use the connection here, it has been returned to the pool.
+     });
+     });
+     */
 
 
     var request = require('request');
     app.get('/', function (req, res) {
         res.render('index', {
-       	//	res.render('oauth', {
-       	//	res.render('indextest', {
-       	//	res.render('indexajaxtest', {
-       	//	res.render('login', {
+            //	res.render('oauth', {
+            //	res.render('indextest', {
+            //	res.render('indexajaxtest', {
+            //	res.render('login', {
             title: "MY HOMEPAGE",
             length: 5
         });
@@ -70,18 +69,18 @@ module.exports = function (app, fs) {
     });
 
     app.post('/reg_date', function (req, res) {
-    	var oReturnData = {};
+        var oReturnData = {};
 
-    	pool.query('SELECT cal_no FROM vxy_cal  ORDER BY cal_no desc limit 1', function (err, rows, fields) {
-		  if (err) throw err;
+        pool.query('SELECT cal_no FROM vxy_cal  ORDER BY cal_no desc limit 1', function (err, rows, fields) {
+            if (err) throw err;
 
-		  oReturnData['seq_no'] = rows;
-		  oReturnData['start'] = req.body.start_date;
-          oReturnData['end'] = req.body.end_date;
-          oReturnData['title'] = req.body.schedule_contents;
-		});
+            oReturnData['seq_no'] = rows;
+            oReturnData['start'] = req.body.start_date;
+            oReturnData['end'] = req.body.end_date;
+            oReturnData['title'] = req.body.schedule_contents;
+        });
 
-    	//auto incremoent 처리하는 법
+        //auto incremoent 처리하는 법
         var myResponse = {
             cal_text: req.body.schedule_contents,
             user_id: 'user_id2',
@@ -93,9 +92,9 @@ module.exports = function (app, fs) {
         };
 
         pool.query('INSERT INTO vxy_cal SET ?', myResponse, function (err, result) {
-        	if (err) throw err;
+            if (err) throw err;
 
-        	res.send({ return_data: JSON.stringify(oReturnData) });
+            res.send({return_data: JSON.stringify(oReturnData)});
         });
     });
 
@@ -133,9 +132,19 @@ module.exports = function (app, fs) {
 
     app.get('/calender_view', function (req, res) {
         pool.query('SELECT * from vxy_cal', function (err, rows, fields) {
-        	if (err) throw err;
+            if (err) throw err;
 
-        	 res.render('calender', { cal_data: JSON.stringify(rows) });
+            res.render('calender', {cal_data: JSON.stringify(rows)});
+        });
+
+    });
+
+    app.post('/modi_view', function (req, res) {
+        pool.query('SELECT * from vxy_cal where cal_no=' + req.body.cal_no, function (err, rows, fields) {
+            if (err) throw err;
+            res.send({
+                cal_data: JSON.stringify(rows)
+            });
         });
 
     });
