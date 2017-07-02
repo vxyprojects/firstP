@@ -49,23 +49,17 @@ app.customRender = function (root, name, fn) {
 }
 
 app.get('/', function (req, res) {
-
     console.log('111');
     app.customRender(path.join(__dirname, '/node_view'), 'index', function (err, html) {
 //    app.customRender(path.join('/node_view'), 'index', function (err) {
-        console.log('2222');e
-        console.log(err);
 //    app.customRender('/node_view', 'index', function (err, html) {
         if (err) {
-            res.sendStatus(404)
-//            res.send(404);
+            res.sendStatus(404);
         }
         else {
-            console.log(res)
-            console.log('resssssss');
-            res.sendStatus(200)
+            res.sendStatus(200);
 //            res.send(200, html);
-//            res.sendStatus(200, html)2
+//            res.sendStatus(200, html);
 
         }
 
