@@ -170,8 +170,10 @@
                         $('#makeDate').val(aLayerData[1])
                         $('.reg').css('display', 'none');
                         $('.modi').css('display', 'block');
+                        //css display none
+                        $('input[name="schedule_contents"]').css('display', 'none');
+                        $('.schedule').css('display', 'none');
                         $('#modal_button').trigger('click')
-//                            [date, makedate]
                     }
                 });
 
@@ -247,9 +249,6 @@
                 $('.reg').css('display', 'block');
                 $('#modal_button').trigger('click')
 
-                //css display none 처리  필요
-                $('input[name="schedule_contents"]').css('display', 'none');
-                $('.schedule').css('display', 'none');
             },
             dayDraw: function () {
                 //	todo  날짜 눌렀을 때  이벤트  처리
