@@ -141,10 +141,26 @@ module.exports = function (app, fs) {
 
     app.post('/modi_view', function (req, res) {
         pool.query('SELECT * from vxy_cal where cal_no=' + req.body.cal_no, function (err, rows, fields) {
+
             if (err) throw err;
             res.send({
                 cal_data: JSON.stringify(rows)
             });
+        });
+
+    });
+
+    //수정페이지 //todo 페이지이동 처리
+    app.post('/move_modi_page', function (req, res) {
+        console.log(req.body.calNo)
+        console.log(req.body)
+        pool.query('SELECT * from vxy_cal where cal_no=' + req.body.calNo, function (err, rows, fields) {
+            if (err) throw err;
+            console.log(rows);
+//            loaction.href = 'modi_front'
+
+            res.render('modi_front', {cal_data: JSON.stringify(rows)});
+//            res.render('index', {cal_data: JSON.stringify(rows)});
         });
 
     });

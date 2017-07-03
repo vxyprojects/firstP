@@ -130,12 +130,7 @@
                 $('#data').text(date.format());
             },
             eventClick: function (calEvent, jsEvent, view) {
-//                console.log(calEvent);
-//                console.log(calEvent.id);
-//                console.log('Event: ' + calEvent.title);
                 var oThis = $(this);
-                console.log(oThis)
-                console.log('oThis')
 
                 var oParam = {
                     'cal_no': calEvent.id
@@ -146,7 +141,6 @@
                     type: 'post',
                     data: oParam,
                     success: function (data) {
-//                        console.log(data)
                         var aReturnData = JSON.parse(data.cal_data)[0];
                         var sCalNo = aReturnData.cal_no;
                         var sCalText = aReturnData.cal_text;
@@ -163,13 +157,11 @@
                         sStartDate = oCalendarUtil.makeCalType(sStartDate);
                         sEndDate = oCalendarUtil.makeCalType(sEndDate);
                         var aLayerData = oCalendarUtil.makeLayerData(oThis, sStartDate, startLabel, sEndDate, endLabel)
-                        console.log(aLayerData)
-                        aLayerData[0]
-                        aLayerData[1]
                         $('#date').text(aLayerData[0]);
                         $('#makeDate').val(aLayerData[1])
                         $('.reg').css('display', 'none');
                         $('.modi').css('display', 'block');
+                        $('.modi').attr('cal_no', calEvent.id);
                         //css display none
                         $('input[name="schedule_contents"]').css('display', 'none');
                         $('.schedule').css('display', 'none');
@@ -292,19 +284,22 @@
 //            return false;
         })
         $('.modi').click(function (e) {
+
+            var oParams = {
+                calNo: $(this).attr('cal_no')
+            };
             $.ajax({
                 dataType: "json",
-                url: '/modi_date',
+                url: '/move_modi_page',
                 type: 'post',
-                data: {'params': oParams},
+                data: oParams,
                 success: function (data) {
                     console.log('data');
                     console.log(data);
                     console.log('data end');
                 }
             });
-            e.preventDefault()
-            return false;
+
         })
     });
 </script>
