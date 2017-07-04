@@ -1,5 +1,21 @@
 module.exports = function (app, fs) {
     var mysql = require('mysql');
+    var jsonToQueryString = function (json) {
+        console.log(json);
+        console.log('json');
+
+        return '?' +
+            Object.keys(json).map(function (key) {
+                console.log(encodeURIComponent(json[key]));
+
+
+                return encodeURIComponent(key) + '=' +
+                    encodeURIComponent(json[key]);
+
+            }).join('&');
+    }
+
+
     // 커넥션 풀 생성
     var pool = mysql.createPool({
         host: 'ec2-52-79-166-70.ap-northeast-2.compute.amazonaws.com',
@@ -150,19 +166,19 @@ module.exports = function (app, fs) {
 
     });
 
-    //수정페이지 //todo 페이지이동 처리
-    app.post('/move_modi_page', function (req, res) {
-        console.log(req.body.calNo)
-        console.log(req.body)
-        pool.query('SELECT * from vxy_cal where cal_no=' + req.body.calNo, function (err, rows, fields) {
+    //수정페이지 - 페이지 이동 처리
+    app.get('/move_modi_page', function (req, res) {
+//        var express = require('express');
+//        app.use(express.static('/script/modi_front'))
+//        console.log(req.query.calNo);
+//        require('./importSet')
+        
+        pool.query('SELECT * from vxy_cal where cal_no=' + req.query.calNo, function (err, rows, fields) {
             if (err) throw err;
-            console.log(rows);
-//            loaction.href = 'modi_front'
-
-            res.render('modi_front', {cal_data: JSON.stringify(rows)});
-//            res.render('index', {cal_data: JSON.stringify(rows)});
+            res.render('modi_front', {
+                cal_data: JSON.stringify(rows)
+            });
         });
-
     });
 
 

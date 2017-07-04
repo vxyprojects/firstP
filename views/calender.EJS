@@ -284,22 +284,7 @@
 //            return false;
         })
         $('.modi').click(function (e) {
-
-            var oParams = {
-                calNo: $(this).attr('cal_no')
-            };
-            $.ajax({
-                dataType: "json",
-                url: '/move_modi_page',
-                type: 'post',
-                data: oParams,
-                success: function (data) {
-                    console.log('data');
-                    console.log(data);
-                    console.log('data end');
-                }
-            });
-
+            window.location.href = '/move_modi_page?calNo=' + $(this).attr('cal_no');
         })
     });
 </script>
