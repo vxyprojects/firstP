@@ -4,7 +4,9 @@
     <script src="myscripts.js"></script>
     -->
     <meta charset="utf-8"/>
-    <% //scripts.push('jquery-ui-1.8.14.custom.min.js', 'jquery.validate.min.js')  %>
+    <link href="/css/style.css" rel="stylesheet" type="text/css">
+
+    <% //scripts.push('jquery-ui-1.8.14.custom.min.js', 'jquery.validate.min.js')                                            %>
 
     <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
@@ -26,10 +28,67 @@
     </script>
 </head>
 <body>
-<!--<pre>
-      <%= //cal_data                      %>
+<pre>
+      <%= //cal_data                                     %>
 
   </pre>
-  -->
+<input id="title" name="title" type="text" title="일정 제목" class="textinput" value=""/></br>
+<input id="start_date" name="start_date" value=""/> ~ <input id="end_date" name="end_date" value=""/></br>일정 색상
+<div jscontroller="XUv4Sc" jsaction="WLC1de:FKh1ne; keydown:uYT2Vb;xtcXDd:.CLIENT;AjJexe:.CLIENT" class="ecp" role="radiogroup">
+    <div jsaction="click:ysBbzd; mouseenter:PuWzJb; mouseleave:sg7kmc;" data-color="none" id=":1h.none" class="goog-inline-block ecp-rb-default" style="background-color: rgb(159, 225, 231); border-color: rgb(11, 188, 178);" aria-labelledby=":1g.eventColors-label :1h.none-label" title="없음" role="radio">
+        <div class="to-select"></div>
+    </div>
+    <div id=":1h.none-label" class="hdn">없음</div>
+    <div class="ecp-dt-hr goog-inline-block"></div>
+    <div jsaction="click:ysBbzd; mouseenter:PuWzJb; mouseleave:sg7kmc;" data-color="#5484ed" id=":1h.#5484ed" class="goog-inline-block ecp-rb-color" style="background-color: rgb(84, 132, 237); border-color: rgb(84, 132, 237);" aria-labelledby=":1g.eventColors-label :1h.#5484ed-label" title="진한 파란색" role="radio">
+        <div class="to-select"></div>
+    </div>
+    <div id=":1h.#5484ed-label" class="hdn">진한 파란색</div>
+    <div jsaction="click:ysBbzd; mouseenter:PuWzJb; mouseleave:sg7kmc;" data-color="#a4bdfc" id=":1h.#a4bdfc" class="goog-inline-block ecp-rb-color" style="background-color: rgb(164, 189, 252); border-color: rgb(164, 189, 252);" aria-labelledby=":1g.eventColors-label :1h.#a4bdfc-label" title="파란색" role="radio">
+        <div class="to-select"></div>
+    </div>
+    <div id=":1h.#a4bdfc-label" class="hdn">파란색</div>
+    <div jsaction="click:ysBbzd; mouseenter:PuWzJb; mouseleave:sg7kmc;" data-color="#46d6db" id=":1h.#46d6db" class="goog-inline-block ecp-rb-color" style="background-color: rgb(70, 214, 219); border-color: rgb(70, 214, 219);" aria-labelledby=":1g.eventColors-label :1h.#46d6db-label" title="청록색" role="radio">
+        <div class="to-select"></div>
+    </div>
+    <div id=":1h.#46d6db-label" class="hdn">청록색</div>
+    <div jsaction="click:ysBbzd; mouseenter:PuWzJb; mouseleave:sg7kmc;" data-color="#7ae7bf" id=":1h.#7ae7bf" class="goog-inline-block ecp-rb-color" style="background-color: rgb(122, 231, 191); border-color: rgb(122, 231, 191);" aria-labelledby=":1g.eventColors-label :1h.#7ae7bf-label" title="녹색" role="radio">
+        <div class="to-select"></div>
+    </div>
+    <div id=":1h.#7ae7bf-label" class="hdn">녹색</div>
+    <div jsaction="click:ysBbzd; mouseenter:PuWzJb; mouseleave:sg7kmc;" data-color="#51b749" id=":1h.#51b749" class="goog-inline-block ecp-rb-color" style="background-color: rgb(81, 183, 73); border-color: rgb(81, 183, 73);" aria-labelledby=":1g.eventColors-label :1h.#51b749-label" title="진한 녹색" role="radio">
+        <div class="to-select"></div>
+    </div>
+    <div id=":1h.#51b749-label" class="hdn">진한 녹색</div>
+    <div jsaction="click:ysBbzd; mouseenter:PuWzJb; mouseleave:sg7kmc;" data-color="#fbd75b" id=":1h.#fbd75b" class="goog-inline-block ecp-rb-color" style="background-color: rgb(251, 215, 91); border-color: rgb(251, 215, 91);" aria-labelledby=":1g.eventColors-label :1h.#fbd75b-label" title="노란색" role="radio">
+        <div class="to-select"></div>
+    </div>
+    <div id=":1h.#fbd75b-label" class="hdn">노란색</div>
+    <div jsaction="click:ysBbzd; mouseenter:PuWzJb; mouseleave:sg7kmc;" data-color="#ffb878" id=":1h.#ffb878" class="goog-inline-block ecp-rb-color" style="background-color: rgb(255, 184, 120); border-color: rgb(255, 184, 120);" aria-labelledby=":1g.eventColors-label :1h.#ffb878-label" title="주황색" role="radio">
+        <div class="to-select"></div>
+    </div>
+    <div id=":1h.#ffb878-label" class="hdn">주황색</div>
+    <div jsaction="click:ysBbzd; mouseenter:PuWzJb; mouseleave:sg7kmc;" data-color="#ff887c" id=":1h.#ff887c" class="goog-inline-block ecp-rb-color" style="background-color: rgb(255, 136, 124); border-color: rgb(255, 136, 124);" aria-labelledby=":1g.eventColors-label :1h.#ff887c-label" title="빨간색" role="radio" tabindex="0">
+        <div class="to-select bcp-selected"></div>
+    </div>
+    <div id=":1h.#ff887c-label" class="hdn">빨간색</div>
+    <div jsaction="click:ysBbzd; mouseenter:PuWzJb; mouseleave:sg7kmc;" data-color="#dc2127" id=":1h.#dc2127" class="goog-inline-block ecp-rb-color" style="background-color: rgb(220, 33, 39); border-color: rgb(220, 33, 39);" aria-labelledby=":1g.eventColors-label :1h.#dc2127-label" title="진한 빨간색" role="radio">
+        <div class="to-select"></div>
+    </div>
+    <div id=":1h.#dc2127-label" class="hdn">진한 빨간색</div>
+    <div jsaction="click:ysBbzd; mouseenter:PuWzJb; mouseleave:sg7kmc;" data-color="#dbadff" id=":1h.#dbadff" class="goog-inline-block ecp-rb-color" style="background-color: rgb(219, 173, 255); border-color: rgb(219, 173, 255);" aria-labelledby=":1g.eventColors-label :1h.#dbadff-label" title="보라색" role="radio">
+        <div class="to-select"></div>
+    </div>
+    <div id=":1h.#dbadff-label" class="hdn">보라색</div>
+    <div jsaction="click:ysBbzd; mouseenter:PuWzJb; mouseleave:sg7kmc;" data-color="#e1e1e1" id=":1h.#e1e1e1" class="goog-inline-block ecp-rb-color" style="background-color: rgb(225, 225, 225); border-color: rgb(225, 225, 225);" aria-labelledby=":1g.eventColors-label :1h.#e1e1e1-label" title="회색" role="radio">
+        <div class="to-select"></div>
+    </div>
+    <div id=":1h.#e1e1e1-label" class="hdn">회색</div>
+</div>
+
+
+<button type="button">이전</button>
+<button type="button">저장</button>
+<!--<h1>sadassa</h1> -->
 </body>
 </html>
