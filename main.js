@@ -172,11 +172,12 @@ module.exports = function (app, fs) {
 //        app.use(express.static('/script/modi_front'))
 //        console.log(req.query.calNo);
 //        require('./importSet')
-        
+
         pool.query('SELECT * from vxy_cal where cal_no=' + req.query.calNo, function (err, rows, fields) {
             if (err) throw err;
             res.render('modi_front', {
-                cal_data: JSON.stringify(rows)
+//                cal_data: JSON.stringify(rows)
+                cal_data: rows
             });
         });
     });
