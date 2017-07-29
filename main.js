@@ -147,12 +147,11 @@ module.exports = function (app, fs) {
 
 
     app.get('/calender_view', function (req, res) {
-        pool.query('SELECT * from vxy_cal', function (err, rows, fields) {
+        pool.query('SELECT * from vxy_cal where is_delete ="F"', function (err, rows, fields) {
             if (err) throw err;
 
             res.render('calender', {cal_data: JSON.stringify(rows)});
         });
-
     });
 
     app.post('/modi_view', function (req, res) {
@@ -168,18 +167,31 @@ module.exports = function (app, fs) {
 
     //수정페이지 - 페이지 이동 처리
     app.get('/move_modi_page', function (req, res) {
-//        var express = require('express');
-//        app.use(express.static('/script/modi_front'))
-//        console.log(req.query.calNo);
-//        require('./importSet')
 
         pool.query('SELECT * from vxy_cal where cal_no=' + req.query.calNo, function (err, rows, fields) {
             if (err) throw err;
-            res.render('modi_front', {
-//                cal_data: JSON.stringify(rows)
-                cal_data: rows
-            });
+            res.render('modi_front', rows[0]);
         });
+    });
+
+    //삭제페이지
+    app.post('/del_date', function (req, res) {
+        console.log('req.body.cal_no')
+        console.log(req.body.cal_no)
+
+
+        var sql = 'UPDATE vxy_cal SET is_delete ="' + 'T' + '"  WHERE cal_no=' + parseInt(req.body.cal_no);
+        pool.query(sql, function (err, result) {
+            if (!err) {
+                console.log(result.affectedRows + " record(s) delete");
+//                res.send({
+//                    return_data: JSON.stringify(result)
+//                });
+            } else {
+                console.log(err);
+            }
+        });
+
     });
 
 
