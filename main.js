@@ -183,10 +183,11 @@ module.exports = function (app, fs) {
         var sql = 'UPDATE vxy_cal SET is_delete ="' + 'T' + '"  WHERE cal_no=' + parseInt(req.body.cal_no);
         pool.query(sql, function (err, result) {
             if (!err) {
-                console.log(result.affectedRows + " record(s) delete");
-//                res.send({
-//                    return_data: JSON.stringify(result)
-//                });
+//                console.log(result.affectedRows + " record(s) delete");
+                result['cal_no'] = req.body.cal_no
+                res.send({
+                    return_data: JSON.stringify(result)
+                });
             } else {
                 console.log(err);
             }

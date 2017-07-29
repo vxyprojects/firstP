@@ -264,11 +264,22 @@
                 type: 'post',
                 data: oParams,
                 success: function (data) {
+                    console.log('data')
+//                    console.log(data['return_data'])
+//                    console.log(JSON.parse(data['return_data']))
+                    var oReturnData = JSON.parse(data['return_data']);
+                    if (oReturnData) {
+                        //cal_no"
+                        //oReturnData.cal_no
+                        console.log('cal_no')
+                        console.log(oReturnData.cal_no)
 
-                    if (data) {
-                        //삭제 이후 리로드 - 이렇게 하면 안되겠다 .그냥  바삭제하는식으로 똑같이 처리 해야겠다.
-//                        location.reload();
+                        var event = {
+                            id: oReturnData.cal_no
+                        };
 //                        $('#calendar').fullCalendar('removeEvents', event, true);
+//                        $('#calendar').fullCalendar('removeEventSources', event, true);
+//                        $('#calendar').fullCalendar('removeEventSource', event, true);
                     }
                 }
             });
