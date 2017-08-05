@@ -223,7 +223,6 @@
                 'end_date': end_date,
                 'schedule_contents': schedule_contents
             };
-
             $.ajax({
                 dataType: "json",
                 url: '/reg_date',
@@ -231,9 +230,6 @@
                 data: oParams,
                 success: function (data) {
                     data.return_data = JSON.parse(data.return_data);
-//                    console.log('data');
-//                    console.log(data.return_data);
-//                    console.log('data end');
                     var event = {
                         id: data.return_data.seq_no[0].cal_no,
                         title: data.return_data.title,
@@ -241,14 +237,16 @@
                         end: new Date(data.return_data.end)
                     };
                     $('#calendar').fullCalendar('renderEvent', event, true);
-                    // 마지막  닫아준다 .
-                    $('.reg').parent().find('.btn-default').trigger('click');
+                    // 마지막  닫아준다 . -- 이벤트  버블링
+//                    $('.reg').parent().find('.btn-default').trigger('click');
+                    $('.close').trigger('click');
                 }
             });
-
-//            e.preventDefault()
-//            return false;
+            e.preventDefault();
+            return false;
         })
+
+
         $('.modi').click(function (e) {
             window.location.href = '/move_modi_page?calNo=' + $(this).attr('cal_no');
         })
