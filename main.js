@@ -87,9 +87,6 @@ module.exports = function (app, fs) {
     app.post('/reg_date', function (req, res) {
         var oReturnData = {};
 
-        console.log('req.body.label_color')
-        console.log( req.body.label_color )
-
         pool.query('SELECT cal_no FROM vxy_cal  ORDER BY cal_no desc limit 1', function (err, rows, fields) {
             if (err) throw err;
 

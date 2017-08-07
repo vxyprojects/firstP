@@ -85,6 +85,7 @@
             eventLimit: true, // allow "more" link when too many events
             events: aEvent,
 //              eventColor: '#378006',
+//              eventColor: 'ff0000',
             //	default  칼라인듯
             //	color: 'yellow',  이런식으로  입력 받으면 될듯 하다
             //	#378006  이런식도 당연히  먹히네
@@ -127,8 +128,10 @@
                         var aLayerData = oCalendarUtil.makeLayerData(oThis, sStartDate, startLabel, sEndDate, endLabel)
                         $('#date').text(aLayerData[0]);
                         $('#makeDate').val(aLayerData[1])
-                        $('.reg').css('display', 'none');
-                        $('.modi').css('display', 'block');
+//                        $('.reg').css('display', 'none');
+//                        $('.modi').css('display', 'block');
+                        $('.reg').hide();
+                        $('.modi').show();
                         $('.modi').attr('cal_no', calEvent.id);
                         $('.del').attr('cal_no', calEvent.id);
                         //css display none
@@ -238,11 +241,14 @@
                 data: oParams,
                 success: function (data) {
                     data.return_data = JSON.parse(data.return_data);
+                    console.log('data.return_data');
+                    console.log(data.return_data)
                     var event = {
                         id: data.return_data.seq_no[0].cal_no,
                         title: data.return_data.title,
                         start: new Date(data.return_data.start),
-                        end: new Date(data.return_data.end)
+                        end: new Date(data.return_data.end),
+                        color: data.return_data.label_color
                     };
                     $('#calendar').fullCalendar('renderEvent', event, true);
                     // 마지막  닫아준다 . -- 이벤트  버블링
@@ -359,6 +365,7 @@
             <!-- 칼라 피커  --->
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <!--<button type="button" class="btn btn-default" id="regAndModi" data-dismiss="modal">일정 생성</button>-->
                 <button type="button" class="btn btn-default reg" data-dismiss="modal">일정 생성</button>
                 <button type="button" class="btn btn-default modi" data-dismiss="modal">일정 수정</button>
                 <button type="button" class="btn btn-default del" data-dismiss="modal">삭제</button>
