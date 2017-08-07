@@ -87,6 +87,9 @@ module.exports = function (app, fs) {
     app.post('/reg_date', function (req, res) {
         var oReturnData = {};
 
+        console.log('req.body.label_color')
+        console.log( req.body.label_color )
+
         pool.query('SELECT cal_no FROM vxy_cal  ORDER BY cal_no desc limit 1', function (err, rows, fields) {
             if (err) throw err;
 
@@ -94,6 +97,7 @@ module.exports = function (app, fs) {
             oReturnData['start'] = req.body.start_date;
             oReturnData['end'] = req.body.end_date;
             oReturnData['title'] = req.body.schedule_contents;
+            oReturnData['label_color'] = req.body.label_color;
         });
 
         //auto incremoent 처리하는 법
@@ -103,11 +107,14 @@ module.exports = function (app, fs) {
             user_name: 'user_name',
             start_date: req.body.start_date,
             end_date: req.body.end_date,
+            cal_label_color: req.body.label_color,
             start_time: 'start_time',
             end_time: 'end_time'
         };
 
         pool.query('INSERT INTO vxy_cal SET ?', myResponse, function (err, result) {
+            console.log('err')
+            console.log(err)
             if (err) throw err;
 
             res.send({return_data: JSON.stringify(oReturnData)});

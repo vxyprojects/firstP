@@ -44,7 +44,9 @@
         var oEventItem = {};
         var sCalData = $('#cal_data').val()
         var oJsonCalData = JSON.parse(sCalData);
-        //todo  -- reg  색깔 값도 필요 할듯
+
+        console.log('oJsonCalData')
+        console.log(oJsonCalData)
         for (idx in oJsonCalData) {
             var oMakeData = {};
             for (sKey in  oJsonCalData[idx]) {
@@ -56,6 +58,9 @@
                     oMakeData['end'] = oJsonCalData[idx][sKey]
                 } else if (sKey === 'cal_no' && oJsonCalData[idx][sKey] !== '') {
                     oMakeData['id'] = oJsonCalData[idx][sKey]
+                } else if (sKey === 'cal_label_color' && oJsonCalData[idx][sKey] !== '') {
+                    //이벤트바 칼라설정 관련
+                    oMakeData['color'] = oJsonCalData[idx][sKey]
                 }
                 else {
                     oMakeData[sKey] = oJsonCalData[idx][sKey]
@@ -79,7 +84,7 @@
             editable: true,
             eventLimit: true, // allow "more" link when too many events
             events: aEvent,
-            //  eventColor: '#378006',
+//              eventColor: '#378006',
             //	default  칼라인듯
             //	color: 'yellow',  이런식으로  입력 받으면 될듯 하다
             //	#378006  이런식도 당연히  먹히네
@@ -213,13 +218,18 @@
         });
 
         $('.reg').click(function (e) {
-            var start_date = $(this).parent().parent().find('.modal-body').find('#makeDate').val().split('~')[0]
-            var end_date = $(this).parent().parent().find('.modal-body').find('#makeDate').val().split('~')[1]
+            //html  구조가  왜 바뀐건지는  모르겠음 나중에 확인  해야할듯
+//            var start_date = $(this).parent().parent().find('.modal-body').find('#makeDate').val().split('~')[0]
+//            var end_date = $(this).parent().parent().find('.modal-body').find('#makeDate').val().split('~')[1]
+            var start_date = $(this).parent().parent().find('#makeDate').val().split('~')[0]
+            var end_date = $(this).parent().parent().find('#makeDate').val().split('~')[1]
             var schedule_contents = $('input[name="schedule_contents"]').val();
+            var label_color = $('#label_color').val();
             var oParams = {
                 'start_date': start_date,
                 'end_date': end_date,
-                'schedule_contents': schedule_contents
+                'schedule_contents': schedule_contents,
+                'label_color': label_color
             };
             $.ajax({
                 dataType: "json",
