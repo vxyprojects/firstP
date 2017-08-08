@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
 
 
-
     <!-- 합쳐지고 최소화된 최신 CSS -->
     <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"> -->
 
@@ -45,8 +44,8 @@
         var sCalData = $('#cal_data').val()
         var oJsonCalData = JSON.parse(sCalData);
 
-        console.log('oJsonCalData')
-        console.log(oJsonCalData)
+//        console.log('oJsonCalData')
+//        console.log(oJsonCalData)
         for (idx in oJsonCalData) {
             var oMakeData = {};
             for (sKey in  oJsonCalData[idx]) {
@@ -85,7 +84,6 @@
             eventLimit: true, // allow "more" link when too many events
             events: aEvent,
 //              eventColor: '#378006',
-//              eventColor: 'ff0000',
             //	default  칼라인듯
             //	color: 'yellow',  이런식으로  입력 받으면 될듯 하다
             //	#378006  이런식도 당연히  먹히네
@@ -209,8 +207,10 @@
 
                 $('#date').text(date);
                 $('#makeDate').val(makedate)
-                $('.modi').css('display', 'none');
-                $('.reg').css('display', 'block');
+//                $('.modi').css('display', 'none');
+//                $('.reg').css('display', 'block');
+                $('.reg').show();
+                $('.modi').hide();
                 $('#modal_button').trigger('click')
 
             },
@@ -316,11 +316,11 @@
             <div class="modal-body">
                 <p class="schedule">일정</p>
                 <input type="text" name="schedule_contents" placeholder="예: 오후 7시에 멕시코 음식점에서 저녁식사" autofocus=""></input>
-                <br/> 시간<br/> <span id="date"> </span> <input type="hidden" id="makeDate" value=""/>
-                <br/> 색<br/> <span id="color"></span>
+                <br/> 시간<br/> <span id="date"> </span> <input type="hidden" id="makeDate" value=""/> <br/> 색<br/>
+                <span id="color"></span>
 
 
-            <!-- 칼라 피커  -->
+                <!-- 칼라 피커  -->
                 <!--color picker --  해당 부분 나중에 처리 회사 칼리picker로  사용함  -->
                 <div class="mColorPicker eColorPicker">
                     <span class="selected" style="background-color:#ff0000"></span><input type="text" id="label_color" maxlength="7" readonly="readonly" value="#ff0000" class="fText" style="width:50px">
@@ -328,88 +328,57 @@
                             <a href="#none">컬러선택</a>
                         </span>
                 </div>
-                <!-- -->
 
-                <!--선택 관련  레이아웃  -->
-            <!--
-                <div class="colorpicker" id="collorpicker_514" style="left: 495px; top: 391px; display: none;">
-                    <div class="colorpicker_color" style="background-color: rgb(255, 0, 0);">
-                        <div>
-                            <div style="left: 150px; top: 0px;"></div>
-                        </div>
-                    </div>
-                    <div class="colorpicker_hue">
-                        <div style="top: 150px;"></div>
-                    </div>
-                    <div class="colorpicker_new_color" style="background-color: rgb(255, 0, 0);"></div>
-                    <div class="colorpicker_current_color" style="background-color: rgb(255, 0, 0);"></div>
-                    <div class="colorpicker_hex"><input type="text" maxlength="6" size="6"></div>
-                    <div class="colorpicker_rgb_r colorpicker_field">
-                        <input type="text" maxlength="3" size="3"><span></span></div>
-                    <div class="colorpicker_rgb_g colorpicker_field">
-                        <input type="text" maxlength="3" size="3"><span></span></div>
-                    <div class="colorpicker_rgb_b colorpicker_field">
-                        <input type="text" maxlength="3" size="3"><span></span></div>
-                    <div class="colorpicker_hsb_h colorpicker_field">
-                        <input type="text" maxlength="3" size="3"><span></span></div>
-                    <div class="colorpicker_hsb_s colorpicker_field">
-                        <input type="text" maxlength="3" size="3"><span></span></div>
-                    <div class="colorpicker_hsb_b colorpicker_field">
-                        <input type="text" maxlength="3" size="3"><span></span></div>
-                    <div class="colorpicker_submit"></div>
+                <!-- 칼라 피커  --->
+                <!-- 칼라 피커  --->
+                <!-- 칼라 피커  --->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <!--<button type="button" class="btn btn-default" id="regAndModi" data-dismiss="modal">일정 생성</button>-->
+                    <button type="button" class="btn btn-default reg" data-dismiss="modal">일정 생성</button>
+                    <button type="button" class="btn btn-default modi" data-dismiss="modal">일정 수정</button>
+                    <button type="button" class="btn btn-default del" data-dismiss="modal">삭제</button>
                 </div>
             </div>
-            -->
-            <!-- 칼라 피커  --->
-            <!-- 칼라 피커  --->
-            <!-- 칼라 피커  --->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <!--<button type="button" class="btn btn-default" id="regAndModi" data-dismiss="modal">일정 생성</button>-->
-                <button type="button" class="btn btn-default reg" data-dismiss="modal">일정 생성</button>
-                <button type="button" class="btn btn-default modi" data-dismiss="modal">일정 수정</button>
-                <button type="button" class="btn btn-default del" data-dismiss="modal">삭제</button>
-            </div>
+            <!-- Modal content END-->
         </div>
-        <!-- Modal content END-->
     </div>
-</div>
-<script>
+    <script>
 
-    var oCalendarUtil = {
-        week: new Array('일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'),
-        makeCalType: function (date, type) {
+        var oCalendarUtil = {
+            week: new Array('일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'),
+            makeCalType: function (date, type) {
 
-            var sCalType = '';
-            if (date) {
-                var day = date.getDate();
+                var sCalType = '';
+                if (date) {
+                    var day = date.getDate();
 //                if (type === 'end') {
 //                    day = date.getDate();
 //                }
-                sCalType = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + day;
+                    sCalType = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + day;
+                }
+
+                return sCalType;
+            }
+            , makeLayerData: function (oThis, start_date, startLabel, end_date, endLabel) {
+
+                var date = ''
+                var makedate = ''
+                // 아  bar  길이가  아니라  선택 영역이구나  여기   // 이함수  같이  쓰게 되면  이조건을  타입별로 바꿔야한다.
+                if (parseInt(oThis.parent().attr('colspan')) >= 2) {
+                    date = start_date + ' (' + startLabel + ')' + ' ~ ' + end_date + '( ' + endLabel + ' )';
+                    makedate = start_date + '~' + end_date
+                } else {
+                    date = start_date + ' (' + startLabel + ')';
+                    makedate = start_date + '~'
+                }
+
+                return [date, makedate];
             }
 
-            return sCalType;
-        }
-        , makeLayerData: function (oThis, start_date, startLabel, end_date, endLabel) {
-
-            var date = ''
-            var makedate = ''
-            // 아  bar  길이가  아니라  선택 영역이구나  여기   // 이함수  같이  쓰게 되면  이조건을  타입별로 바꿔야한다.
-            if (parseInt(oThis.parent().attr('colspan')) >= 2) {
-                date = start_date + ' (' + startLabel + ')' + ' ~ ' + end_date + '( ' + endLabel + ' )';
-                makedate = start_date + '~' + end_date
-            } else {
-                date = start_date + ' (' + startLabel + ')';
-                makedate = start_date + '~'
-            }
-
-            return [date, makedate];
-        }
-
-    };
-    // modil  페이지  만들어야함
-</script>
-<script src="/js/modi_front/color_picker.js"></script>
+        };
+        // modil  페이지  만들어야함
+    </script>
+    <script src="/js/modi_front/color_picker.js"></script>
 </html>
 

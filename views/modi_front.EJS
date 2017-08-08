@@ -6,7 +6,7 @@
     <meta charset="utf-8"/>
     <link href="/css/style.css" rel="stylesheet" type="text/css">
 
-    <% //scripts.push('jquery-ui-1.8.14.custom.min.js', 'jquery.validate.min.js')                                                                    %>
+    <% //scripts.push('jquery-ui-1.8.14.custom.min.js', 'jquery.validate.min.js')                                                                                          %>
 
     <script src='//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js'></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -24,6 +24,11 @@
 
     <title></title>
     <script src="/js/modi_front/importSet.js"></script>
+    <!-- coloer picker  관련  -->
+    <link href="/css/calender_view.css" rel="stylesheet" type="text/css">
+    <style> .colorpicker { z-index: 9999; } </style>
+    <script src="/js/modi_front/color_picker.js"></script>
+
 </head>
 <body>
 <pre>
@@ -31,8 +36,23 @@
 </pre>
 <input id="title" name="title" type="text" title="일정 제목" class="textinput" value="<%= cal_text %>"/></br>
 <input id="start_date" name="start_date" value="<%= start_date %>"/> ~
-<input id="end_date" name="end_date" value="<%= end_date %>"/></br>일정 색상
-<div jscontroller="XUv4Sc" jsaction="WLC1de:FKh1ne; keydown:uYT2Vb;xtcXDd:.CLIENT;AjJexe:.CLIENT" class="ecp" role="radiogroup">
+<input id="end_date" name="end_date" value="<%= end_date %>"/></br>일정 색상<br/> <span id="color"></span>
+<!-- 칼라 피커  -->
+<div class="mColorPicker eColorPicker">
+    <span class="selected" style="background-color:#ff0000"></span><input type="text" id="label_color" maxlength="7" readonly="readonly" value="#ff0000" class="fText" style="width:50px">
+    <span class="selector">
+                            <a href="#none">컬러선택</a>
+    </span>
+</div>
+</br>
+<button type="button" id="back">이전</button>
+<button type="button" id="eSave">저장</button>
+<!--<h1>sadassa</h1> -->
+</body>
+</html>
+
+
+<!--<div jscontroller="XUv4Sc" jsaction="WLC1de:FKh1ne; keydown:uYT2Vb;xtcXDd:.CLIENT;AjJexe:.CLIENT" class="ecp" role="radiogroup">
     <div jsaction="click:ysBbzd; mouseenter:PuWzJb; mouseleave:sg7kmc;" data-color="none" id=":1h.none" class="goog-inline-block ecp-rb-default" style="background-color: rgb(159, 225, 231); border-color: rgb(11, 188, 178);" aria-labelledby=":1g.eventColors-label :1h.none-label" title="없음" role="radio">
         <div class="to-select"></div>
     </div>
@@ -83,10 +103,4 @@
     </div>
     <div id=":1h.#e1e1e1-label" class="hdn">회색</div>
 </div>
-
-
-<button type="button">이전</button>
-<button type="button">저장</button>
-<!--<h1>sadassa</h1> -->
-</body>
-</html>
+-->
