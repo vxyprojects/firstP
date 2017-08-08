@@ -118,6 +118,23 @@ module.exports = function (app, fs) {
         });
     });
 
+
+    app.post('/modified', function (req, res) {
+        var sql = 'UPDATE vxy_cal SET start_date ="' + req.body.start_date + '",  end_date ="' + req.body.end_date + '"' + ', cal_label_color="' + req.body.label_color + '"' + ', cal_text="' + req.body.schedule_contents + '"' + ' WHERE cal_no=' + parseInt(req.body.cal_no);
+        pool.query(sql, function (err, result) {
+            if (!err) {
+                console.log(result.affectedRows + " record(s) update");
+                result['cal_no'] = req.body.cal_no
+                res.send({
+                    return_data: JSON.stringify(result)
+                });
+            } else {
+                console.log(err);
+            }
+        });
+
+    });
+
     app.post('/modi_date', function (req, res) {
         var body = req.body;
         //todo calno 를

@@ -6,7 +6,7 @@
     <meta charset="utf-8"/>
     <link href="/css/style.css" rel="stylesheet" type="text/css">
 
-    <% //scripts.push('jquery-ui-1.8.14.custom.min.js', 'jquery.validate.min.js')                                                                                          %>
+    <% //scripts.push('jquery-ui-1.8.14.custom.min.js', 'jquery.validate.min.js')                                                                                                                                                                                                                                   %>
 
     <script src='//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js'></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -39,7 +39,8 @@
 <input id="end_date" name="end_date" value="<%= end_date %>"/></br>일정 색상<br/> <span id="color"></span>
 <!-- 칼라 피커  -->
 <div class="mColorPicker eColorPicker">
-    <span class="selected" style="background-color:#ff0000"></span><input type="text" id="label_color" maxlength="7" readonly="readonly" value="#ff0000" class="fText" style="width:50px">
+    <!--색상관련 이벤트 처리 해준다 -->
+    <span class="selected" style="background-color:#ff0000"></span><input type="text" id="label_color" maxlength="7" readonly="readonly" value="<%= cal_label_color %>" class="fText" style="width:50px">
     <span class="selector">
                             <a href="#none">컬러선택</a>
     </span>
@@ -48,6 +49,61 @@
 <button type="button" id="back">이전</button>
 <button type="button" id="eSave">저장</button>
 <!--<h1>sadassa</h1> -->
+
+<script>
+    function getQuerystring(paramName) {
+        var _tempUrl = window.location.search.substring(1); //url에서 처음부터 '?'까지 삭제
+        var _tempArray = _tempUrl.split('&'); // '&'을 기준으로 분리하기
+        for (var i = 0; _tempArray.length; i++) {
+            var _keyValuePair = _tempArray[i].split('='); // '=' 을 기준으로 분리하기
+            if (_keyValuePair[0] == paramName) { // _keyValuePair[0] : 파라미터 명 // _keyValuePair[1] : 파라미터 값
+                return _keyValuePair[1];
+            }
+        }
+    }
+
+    //이전
+    $('#back').click(function (e) {
+        window.location.href = '/calender_view';
+    })
+
+    //수정
+    $('#eSave').click(function (e) {
+        var sTitle = $('#title').val();
+        var sStartDate = $('#start_date').val();
+        var sEndDate = $('#end_date').val();
+        var sCalLabelColor = $('#label_color').val();
+        var calNo = getQuerystring('calNo');
+        var oParams = {
+            'cal_no': calNo,
+            'start_date': sStartDate,
+            'end_date': sEndDate,
+            'schedule_contents': sTitle,
+            'label_color': sCalLabelColor
+        };
+
+        $.ajax({
+            dataType: "json",
+            url: '/modified',
+            type: 'post',
+            data: oParams,
+            success: function (data) {
+                var oReturnData = JSON.parse(data['return_data']);
+                console.log('oReturnData');
+                console.log(oReturnData);
+
+                if (oReturnData.affectedRows > 0) {
+                    //처리후  성공하면  메인으로
+                    alert('수정 성공')
+                    window.location.href = '/calender_view';
+                }
+            }
+        });
+    })
+
+    //수정 페이지  시작시 색상관련 이벤트 처리 해준다
+</script>
+
 </body>
 </html>
 
