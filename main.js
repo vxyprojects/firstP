@@ -52,8 +52,19 @@ module.exports = function (app, fs) {
 
 
     var request = require('request');
+//    app.get('/', function (req, res) {
+//        res.render('index', {
+//            //	res.render('oauth', {
+//            //	res.render('indextest', {
+//            //	res.render('indexajaxtest', {
+//            //	res.render('login', {
+//            title: "MY HOMEPAGE",
+//            length: 5
+//        });
+//    });
+
     app.get('/', function (req, res) {
-        res.render('index', {
+        res.render('indextt', {
             //	res.render('oauth', {
             //	res.render('indextest', {
             //	res.render('indexajaxtest', {
@@ -175,6 +186,11 @@ module.exports = function (app, fs) {
         });
     });
 
+
+    app.get('/login', function (req, res) {
+        res.render('login', {});
+    });
+
     app.post('/modi_view', function (req, res) {
         pool.query('SELECT * from vxy_cal where cal_no=' + req.body.cal_no, function (err, rows, fields) {
 
@@ -238,9 +254,6 @@ module.exports = function (app, fs) {
                 res.send({body: body});
             } else {
                 console.log('error');
-////                console.log(error);
-//                console.log(response.statusCode);
-//                console.log(response.body);
             }
         })
     });
@@ -253,7 +266,6 @@ module.exports = function (app, fs) {
 
         var Header = {
             'content-type': 'application/json',
-//                'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
             'Authorization': 'Bearer' + ' ' + access_token,
         };
         var url = 'https://kapi.kakao.com/v1/api/talk/memo/send';

@@ -6,11 +6,13 @@
     <meta charset="utf-8"/>
     <link href="/css/style.css" rel="stylesheet" type="text/css">
 
-    <% //scripts.push('jquery-ui-1.8.14.custom.min.js', 'jquery.validate.min.js')                                                                                                                                                                                                                                   %>
+    <% //scripts.push('jquery-ui-1.8.14.custom.min.js', 'jquery.validate.min.js')                                                                                                                                                                                                                                                               %>
 
     <script src='//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js'></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
     <!--
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
@@ -34,18 +36,28 @@
 <pre>
 
 </pre>
-<input id="title" name="title" type="text" title="일정 제목" class="textinput" value="<%= cal_text %>"/></br>
-<input id="start_date" name="start_date" value="<%= start_date %>"/> ~
-<input id="end_date" name="end_date" value="<%= end_date %>"/></br>일정 색상<br/> <span id="color"></span>
-<!-- 칼라 피커  -->
-<div class="mColorPicker eColorPicker">
-    <!--색상관련 이벤트 처리 해준다 -->
-    <span class="selected" style="background-color:#ff0000"></span><input type="text" id="label_color" maxlength="7" readonly="readonly" value="<%= cal_label_color %>" class="fText" style="width:50px">
-    <span class="selector">
+<ul class="nav nav-tabs">
+    <li role="presentation modi_date" class="active tab"><a href="#">일정 탭</a></li>
+    <li role="presentation modi_time" class="tab"><a href="#">시간 탭 </a></li>
+</ul>
+<div id="modi_date">
+    <input id="title" name="title" type="text" title="일정 제목" class="textinput" value="<%= cal_text %>"/></br>
+    <input id="start_date" name="start_date" value="<%= start_date %>"/> ~
+    <input id="end_date" name="end_date" value="<%= end_date %>"/></br>일정 색상<br/> <span id="color"></span>
+    <!-- 칼라 피커  -->
+    <div class="mColorPicker eColorPicker">
+        <!--색상관련 이벤트 처리 해준다 -->
+        <span class="selected" style="background-color:#ff0000"></span><input type="text" id="label_color" maxlength="7" readonly="readonly" value="<%= cal_label_color %>" class="fText" style="width:50px">
+        <span class="selector">
                             <a href="#none">컬러선택</a>
     </span>
+    </div>
+    </br>
 </div>
-</br>
+
+<div id="modi_time">
+    <input value="t"/>
+</div>
 <button type="button" id="back">이전</button>
 <button type="button" id="eSave">저장</button>
 <!--<h1>sadassa</h1> -->
@@ -61,6 +73,12 @@
             }
         }
     }
+
+    //tab 클릭시
+    $('.tab').click(function () {
+
+    });
+
 
     //이전
     $('#back').click(function (e) {

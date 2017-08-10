@@ -1,19 +1,120 @@
 <html>
-  <head>
-  <meta charset="utf-8"/>
-  <title></title>
-
+<head>
+    <meta charset="utf-8"/>
+    <title></title>
+    <!-- <link rel="stylesheet" type="text/css" href="css/style.css">-->
+    <link href="/css/login.css" rel="stylesheet" type="text/css">
     <!-- 합쳐지고 최소화된 최신 CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-
     <!-- 부가적인 테마 -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/boots  trap/3.3.2/css/bootstrap-theme.min.css">
-   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-  </head>
-  <body>
-  <button type="button" id="kakao-login-btn" class="btn btn-default">카카오자동로그인</button>
+    <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+    <style>
+        .kakao-login-btn {
+            background-color: #ffef3f;
+            border: 1px solid #ffde00;
+            line-height: 38px;
+            padding-top: 5px;
+            width: 268px;
+            display: inline-block;
+            font-weight: bold;
+        }
 
-  </body>
+    </style>
+</head>
+<body>
+<!--  <button type="button" id="kakao-login-btn" class="btn btn-default">카카오자동로그인</button> -->
+<ul id="background" class="background">
+    <li class="fadein" style="background-image: url(&quot;https://farm5.staticflickr.com/4270/34525385380_0c0a2613aa_k.jpg&quot;);"></li>
+</ul>
+
+<div id="center">
+    <div id="centerclock" style="opacity: 1;">
+        <div class="clock default-clock">
+            <!--<h1 class="time">7:52</h1>
+            <span class="format">AM</span>
+            -->
+            <!--ID: <input type="text" name="schedule_contents" placeholder="ID를 입력해주세요" autofocus=""></input> <BR/> PW:
+            <input type="text" name="schedule_contents" placeholder="PW를 입력해주세요" autofocus=""></input> <BR/>
+            <button type="button" class="btn btn-default login" data-dismiss="modal">로그인</button>
+            <button type="button" id="kakao-login-btn" class="btn btn-default">카카오자동로그인</button>
+            -->
+            <!--<button type="button" id="send">보내기</button>
+            <button type="button" id="login">로그인</button>
+            -->
+            <div id="kakao-logged-group"></div>
+            <div id="kakao-profile"></div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    $(document).ready(function () {
+
+
+        Kakao.init("88194590ac5f2b7863f1732637a592c5");
+        function getKakaotalkUserProfile() {
+            Kakao.API.request({
+                url: '/v1/user/me',
+                success: function (res) {
+                    console.log('res');
+                    console.log(res);
+//                    $("#kakao-profile").append(res.properties.nickname);
+//                    $("#kakao-profile").append($("<img/>", {
+//                        "src": res.properties.profile_image,
+//                        "alt": res.properties.nickname + "님의 프로필 사진"
+//                    }));
+                },
+                fail: function (error) {
+                    console.log(error);
+                }
+            });
+        }
+
+        function createKakaotalkLogin() {
+            $("#kakao-logged-group .kakao-logout-btn,#kakao-logged-group .kakao-login-btn").remove();
+            var loginBtn = $("<a/>", {"class": "kakao-login-btn", "text": ""});
+//            var loginBtn = $("<a/>", {"class": "btn_login", "text": "카카오 자동로그인"});
+            loginBtn.click(function () {
+                Kakao.Auth.login({
+                    persistAccessToken: true,
+                    persistRefreshToken: true,
+                    success: function (authObj) {
+                        getKakaotalkUserProfile();
+                        createKakaotalkLogout();
+                    },
+                    fail: function (err) {
+//                            console.log(err);
+                    }
+                });
+            });
+            $("#kakao-logged-group").prepend(loginBtn)
+
+            $('.kakao-login-btn').append('<img alt="로그인" src="/assets/ko/weblogin/pc_login_text-1bd264f28a6c7f1fbeb7b4e7d7c2639b.png">');
+        }
+
+        function createKakaotalkLogout() {
+            $("#kakao-logged-group .kakao-logout-btn,#kakao-logged-group .kakao-login-btn").remove();
+            var logoutBtn = $("<a/>", {"class": "kakao-logout-btn", "text": "로그아웃"});
+            logoutBtn.click(function () {
+                Kakao.Auth.logout();
+                createKakaotalkLogin();
+                $("#kakao-profile").text("");
+            });
+            $("#kakao-logged-group").prepend(logoutBtn);
+        }
+
+        if (Kakao.Auth.getRefreshToken() != undefined && Kakao.Auth.getRefreshToken().replace(/ /gi, "") != "") {
+            createKakaotalkLogout();
+            getKakaotalkUserProfile();
+        } else {
+            createKakaotalkLogin();
+        }
+    });
+</script>
+</body>
 </html>
