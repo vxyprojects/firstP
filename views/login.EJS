@@ -47,11 +47,11 @@
 
             -->
             <!--
-            <button type="button" id="send">보내기</button>
             <button type="button" id="login">로그인</button>
             -->
             <div id="kakao-logged-group"></div>
             <div id="kakao-profile"></div>
+            <button type="button" id="send">보내기</button>
         </div>
     </div>
 
@@ -66,16 +66,37 @@
             Kakao.API.request({
                 url: '/v1/user/me',
                 success: function (res) {
-                    console.log('res');
-                    console.log(res);
+//                    console.log('res');
+//                    console.log(res);
 
-                    console.log($('#email').val())
-                    console.log($('#password').val())
-//                    $("#kakao-profile").append(res.properties.nickname);
-//                    $("#kakao-profile").append($("<img/>", {
-//                        "src": res.properties.profile_image,
-//                        "alt": res.properties.nickname + "님의 프로필 사진"
-//                    }));
+                    $('#send').click(function () {
+                        console.log(111)
+                        console.log('-----------')
+//                        console.log(res)
+                        var accessToken = Kakao.Auth.getAccessToken()
+                        var accessTokenType = 'bearer';
+//                        console.log('ACCESSTOKEN')
+//                        console.log(accessToken)
+                        // CMOIhTe7cPo3Z6ZCQybtX_8uZm9gdot6wtnlBQopdaYAAAFd12jk0w  -- 정확하게  가지고온다 .
+                        //var oParams = '111';
+                        // 두번  send  되는  버그가  있다
+                        var oParams = {};
+                        oParams['access_token'] = accessToken;
+                        oParams['token_type'] = accessTokenType;
+                        $.ajax({
+                            dataType: "json",
+                            url: '/send_me',
+                            type: 'post',
+                            data: {'params': oParams},
+                            success: function (data) {
+                                console.log('data');
+                                console.log(data);
+                                console.log('data end');
+                            }
+
+                        });
+
+                    });
                 },
                 fail: function (error) {
                     console.log(error);

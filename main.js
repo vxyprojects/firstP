@@ -274,7 +274,8 @@ module.exports = function (app, fs) {
             method: 'POST',
             url: url,
             form: {
-                "template_id": "4024"
+                "template_id": "4024",
+                "args": '{"${date_1}" : "123" ,"${date_2}" :"1" ,"${userName}":"swlee05"}'
             }
         };
         request(oRequestParam, function (error, response, body) {
