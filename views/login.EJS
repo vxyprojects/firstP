@@ -12,6 +12,7 @@
     <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
     <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+    <!---<script src="/js/comm/kakao.js"></script> -->
     <style>
         .kakao-login-btn {
             background-color: #ffef3f;
@@ -34,15 +35,19 @@
 <div id="center">
     <div id="centerclock" style="opacity: 1;">
         <div class="clock default-clock">
-            <!--<h1 class="time">7:52</h1>
+            <!--
+            <h1 class="time">7:52</h1>
             <span class="format">AM</span>
             -->
-            <!--ID: <input type="text" name="schedule_contents" placeholder="ID를 입력해주세요" autofocus=""></input> <BR/> PW:
+            <!--
+            ID: <input type="text" name="schedule_contents" placeholder="ID를 입력해주세요" autofocus=""></input> <BR/> PW:
             <input type="text" name="schedule_contents" placeholder="PW를 입력해주세요" autofocus=""></input> <BR/>
             <button type="button" class="btn btn-default login" data-dismiss="modal">로그인</button>
             <button type="button" id="kakao-login-btn" class="btn btn-default">카카오자동로그인</button>
+
             -->
-            <!--<button type="button" id="send">보내기</button>
+            <!--
+            <button type="button" id="send">보내기</button>
             <button type="button" id="login">로그인</button>
             -->
             <div id="kakao-logged-group"></div>
@@ -63,6 +68,9 @@
                 success: function (res) {
                     console.log('res');
                     console.log(res);
+
+                    console.log($('#email').val())
+                    console.log($('#password').val())
 //                    $("#kakao-profile").append(res.properties.nickname);
 //                    $("#kakao-profile").append($("<img/>", {
 //                        "src": res.properties.profile_image,
