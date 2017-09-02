@@ -29,7 +29,8 @@
 <body>
 <!--  <button type="button" id="kakao-login-btn" class="btn btn-default">카카오자동로그인</button> -->
 <ul id="background" class="background">
-    <li class="fadein" style="background-image: url(&quot;https://farm5.staticflickr.com/4270/34525385380_0c0a2613aa_k.jpg&quot;);"></li>
+    <!--<li class="fadein" style="background-image: url(&quot;https://farm5.staticflickr.com/4270/34525385380_0c0a2613aa_k.jpg&quot;);"></li>-->
+    <li class="fadein" style="background-image: url(https://farm3.staticflickr.com/2811/33823326832_059359647d_k.jpg);"></li>
 </ul>
 
 <div id="center">
@@ -62,41 +63,57 @@
 
 
         Kakao.init("88194590ac5f2b7863f1732637a592c5");
+        var accessToken = Kakao.Auth.getAccessToken()
+
+        // U2FsdGVkX19wX0GD7DQLWT2OAelxXKhgz5whNGjcfKXqku5vuP/YGe6TthIw/0KS5qgN07nO6f7Q4LPFbkgNcCT0nEjVGoigfugNqy8Rmuc=
+        console.log('access_tocken');
+        console.log(accessToken);
         function getKakaotalkUserProfile() {
             Kakao.API.request({
                 url: '/v1/user/me',
                 success: function (res) {
-//                    console.log('res');
-//                    console.log(res);
+                    console.log('res');
+                    console.log(res);
+//                    console.log(res.kaccount_email);
+                    if (Object.keys(res).length > 0 ) {
+                        var local_storage_key = [] ;
+                        var local_storage_value = [] ;
+                        var kakao_email_id = [] ;
 
-                    $('#send').click(function () {
-                        console.log(111)
-                        console.log('-----------')
-//                        console.log(res)
-                        var accessToken = Kakao.Auth.getAccessToken()
-                        var accessTokenType = 'bearer';
-//                        console.log('ACCESSTOKEN')
-//                        console.log(accessToken)
-                        // CMOIhTe7cPo3Z6ZCQybtX_8uZm9gdot6wtnlBQopdaYAAAFd12jk0w  -- 정확하게  가지고온다 .
-                        //var oParams = '111';
-                        // 두번  send  되는  버그가  있다
-                        var oParams = {};
-                        oParams['access_token'] = accessToken;
-                        oParams['token_type'] = accessTokenType;
-                        $.ajax({
-                            dataType: "json",
-                            url: '/send_me',
-                            type: 'post',
-                            data: {'params': oParams},
-                            success: function (data) {
-                                console.log('data');
-                                console.log(data);
-                                console.log('data end');
-                            }
+                        for ( sKey in localStorage ) {
+                            local_storage_key.push(sKey)
+                            local_storage_value.push(localStorage[sKey]);
+                            kakao_email_id.push(res.kaccount_email);
+                        }
+                    }
 
-                        });
 
-                    });
+
+                    //todo  디비에 담아주고선  브라우저 켜놓고선  돌리는 식으로 진행
+
+//                    $('#send').click(function () {
+//                        var accessToken = Kakao.Auth.getAccessToken()
+//                    console.log('access_tocken');
+//                    console.log(accessToken);
+//                        var accessTokenType = 'bearer';
+//                        // 두번  send  되는  버그가  있다
+//                        var oParams = {};
+//                        oParams['access_token'] = accessToken;
+//                        oParams['token_type'] = accessTokenType;
+//                        $.ajax({
+//                            dataType: "json",
+//                            url: '/send_me',
+//                            type: 'post',
+//                            data: {'params': oParams},
+//                            success: function (data) {
+//                                console.log('data');
+//                                console.log(data);
+//                                console.log('data end');
+//                            }
+//
+//                        });
+//
+//                    });
                 },
                 fail: function (error) {
                     console.log(error);

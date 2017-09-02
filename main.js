@@ -52,25 +52,36 @@ module.exports = function (app, fs) {
 
 
     var request = require('request');
-//    app.get('/', function (req, res) {
-//        res.render('index', {
-//            //	res.render('oauth', {
-//            //	res.render('indextest', {
-//            //	res.render('indexajaxtest', {
-//            //	res.render('login', {
-//            title: "MY HOMEPAGE",
-//            length: 5
-//        });
-//    });
+   app.get('/', function (req, res) {
+       res.render('index', {
+           //	res.render('oauth', {
+           //	res.render('indextest', {
+           //	res.render('indexajaxtest', {
+           //	res.render('login', {
+           title: "MY HOMEPAGE",
+           length: 5
+       });
+   });
 
-    app.get('/', function (req, res) {
-        res.render('indextt', {
-            //	res.render('oauth', {
-            //	res.render('indextest', {
-            //	res.render('indexajaxtest', {
-            //	res.render('login', {
-            title: "MY HOMEPAGE",
-            length: 5
+    // app.get('/', function (req, res) {
+    //     res.render('indextt', {
+    //         //	res.render('oauth', {
+    //         //	res.render('indextest', {
+    //         //	res.render('indexajaxtest', {
+    //         //	res.render('login', {
+    //         title: "MY HOMEPAGE",
+    //         length: 5
+    //     });
+    // });
+
+
+    //hybrid -call api test -- 하이브리드앱 api 호출용
+    app.get('/get/cal_data', function (req, res) {
+        pool.query('SELECT * from vxy_cal where is_delete ="F"', function (err, rows, fields) {
+            if (err) throw err;
+            res.send({return_data: JSON.stringify(rows)});
+            // JSON.parse(rows);
+            // res.json(rows);
         });
     });
 
@@ -258,6 +269,7 @@ module.exports = function (app, fs) {
         })
     });
 
+    //todo  api  key  10 개  정도  얻어 놓고 돌아가면서  써야 할듯
     app.post('/send_me', function (req, res) {
         //변수
         var access_token = req.body['params[access_token]'];
