@@ -77,8 +77,18 @@ module.exports = function (app, fs) {
 
     //hybrid -call api test -- 하이브리드앱 api 호출용
     app.get('/get/cal_data', function (req, res) {
-        pool.query('SELECT * from vxy_cal where is_delete ="F"', function (err, rows, fields) {
+
+        // select * from vxy_cal
+        // where  start_date = '2017-5-12';
+        // req.query.current_date
+        // pool.query('SELECT * from vxy_cal where is_delete ="F"', function (err, rows, fields) {
+
+        pool.query('SELECT * from vxy_cal where start_date ="'+req.query.current_date+'" and is_delete ="F"', function (err, rows, fields) {
             if (err) throw err;
+
+            console.log('req.query.current_date')
+            console.log(req.query.current_date)
+
             res.send({return_data: JSON.stringify(rows)});
             // JSON.parse(rows);
             // res.json(rows);
