@@ -119,29 +119,6 @@ module.exports = function (app, fs) {
     app.post('/reg_date', function (req, res) {
         var oReturnData = {};
 
-        //todo 인서트 하고나서 마지막걸 보여주는게 맞는거 아닌가?? ... 이거 확인 해봐야할듯
-        //todo 아니면 row+1만 처리 를 했었어야지 ...
-//        pool.query('SELECT cal_no FROM vxy_cal  ORDER BY cal_no desc limit 1', function (err, rows, fields) {
-//            if (err) throw err;
-//            //넣기 전 seq_no 인데  이상이 없는건가??;;; 이거 + 1 해야하지 않나? ;;;
-//            //todo 왜 이렇게 받은거지??
-//            console.log(rows)
-//
-//            oReturnData['seq_no'] = rows; // +1  을 해야하나?
-//            oReturnData['start'] = req.body.start_date;
-//            oReturnData['end'] = req.body.end_date;
-//            oReturnData['title'] = req.body.schedule_contents;
-//            oReturnData['label_color'] = req.body.label_color;
-//
-//            // 알림 설정 부분
-////            oReturnData['alarm_period'] = req.body.alarm_period;
-////            oReturnData['alarm_day_type'] = req.body.alarm_day_type;
-////            oReturnData['alarm_time'] = req.body.alarm_time;
-////            oReturnData['use_alarm_config'] = req.body.use_alarm_config;
-//        });
-
-//        console.log(req.body)
-
         //auto incremoent 처리하는 법
         var myResponse = {
             cal_text: req.body.schedule_contents,
@@ -161,32 +138,25 @@ module.exports = function (app, fs) {
         };
 
         pool.query('INSERT INTO vxy_cal SET ?', myResponse, function (err, result) {
-            console.log('err')
             console.log(err)
             if (err) throw err;
-
-            //todo 되는지 확인 해봐야한다.
-//            pool.query('SELECT cal_no FROM vxy_cal  ORDER BY cal_no desc limit 1', function (err, rows, fields) {
-//                if (err) throw err;
-//                //넣기 전 seq_no 인데  이상이 없는건가??;;; 이거 + 1 해야하지 않나? ;;;
-//                console.log('in err ')
-//                console.log(err)
-//                //todo 왜 이렇게 받은거지??
-//                oReturnData['seq_no'] = rows; // +1  을 해야하나?
-//                oReturnData['start'] = req.body.start_date;
-//                oReturnData['end'] = req.body.end_date;
-//                oReturnData['title'] = req.body.schedule_contents;
-//                oReturnData['label_color'] = req.body.label_color;
-//
-//                // 알림 설정 부분
-////            oReturnData['alarm_period'] = req.body.alarm_period;
-////            oReturnData['alarm_day_type'] = req.body.alarm_day_type;
-////            oReturnData['alarm_time'] = req.body.alarm_time;
-////            oReturnData['use_alarm_config'] = req.body.use_alarm_config;
-//            });
-//            console.log(oReturnData)
-
-            res.send({return_data: JSON.stringify(oReturnData)});
+            //인서트 하고나서 마지막걸 보여주는걸로  넣은거 row를 보여주는식으로
+            pool.query('SELECT cal_no FROM vxy_cal  ORDER BY cal_no desc limit 1', function (err, rows, fields) {
+                if (err) throw err;
+                console.log(err)
+                //넣기 전 seq_no 인데  이상이 없는건가??;;; 이거 + 1 해야하지 않나? ;;;
+                oReturnData['seq_no'] = rows; // +1  을 해야하나?
+                oReturnData['start'] = req.body.start_date;
+                oReturnData['end'] = req.body.end_date;
+                oReturnData['title'] = req.body.schedule_contents;
+                oReturnData['label_color'] = req.body.label_color;
+                // 알림 설정 부분
+                //            oReturnData['alarm_period'] = req.body.alarm_period;
+                //            oReturnData['alarm_day_type'] = req.body.alarm_day_type;
+                //            oReturnData['alarm_time'] = req.body.alarm_time;
+                //            oReturnData['use_alarm_config'] = req.body.use_alarm_config;
+                res.send({return_data: JSON.stringify(oReturnData)});
+            });
         });
     });
 

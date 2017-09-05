@@ -26,6 +26,7 @@
     <!-- coloer picker  관련  -->
     <style> .colorpicker { z-index: 9999; } </style>
     <script src="/js/modi_front/color_picker.js"></script>
+    <script src="/js/comm/alarmcommevent.js"></script>
 </head>
 <body>
 <h1>캘린더 테스트 </h1>
@@ -95,6 +96,12 @@
             //	#378006  이런식도 당연히  먹히네
             //	],
             dayClick: function (date, jsEvent, view, resource) {
+                if ($('input[name="schedule_contents"]').css('display') === 'none') {
+                    $('input[name="schedule_contents"]').css('display', 'block');
+                }
+                //알림 관련 init 처리
+                ALARM_COMM_EVENT.default_alarm_format();
+
                 console.log(
                     'dayClick',
                     date.format(),
@@ -104,10 +111,13 @@
             },
             eventClick: function (calEvent, jsEvent, view) {
                 var oThis = $(this);
-
+                //todo calnotest bug 있다.
+                
                 var oParam = {
                     'cal_no': calEvent.id
                 };
+
+                // 이건 맞고
                 $.ajax({
                     dataType: "json",
                     url: '/modi_view',
@@ -119,6 +129,21 @@
                         var sCalText = aReturnData.cal_text;
                         var sStartDate = aReturnData.start_date;
                         var sEndDate = aReturnData.end_date;
+
+                        //일정관련 처리
+                        var sUseAlarm = aReturnData.use_alarm_config;
+                        var sAlarmConfig = (aReturnData.alarm_period.length > 0) ? aReturnData.alarm_period : '';
+                        var sAlarmDayType = (aReturnData.alarm_day_type.length > 0) ? aReturnData.alarm_day_type : 'd';
+                        var sAlarmDayTime = (aReturnData.alarm_time.length > 0) ? aReturnData.alarm_time : '오전 12:00';
+                        if (sUseAlarm === 'T') {
+                            $('input[name="use_alarm_config"]').trigger('click');
+                        } else {
+                            $('input[name="use_alarm_config"]').prop('checked', false);
+                        }
+                        $('#alarm_period').val(sAlarmConfig)
+                        $('#config_alarm_day_type').val(sAlarmDayType)
+                        $('#config_alarm_time').val(sAlarmDayTime)
+
                         sStartDate = new Date(sStartDate)
                         sEndDate = new Date(sEndDate)
 
@@ -224,28 +249,7 @@
             }
         });
 
-
-        $('input[name="use_alarm_config"]').click(function (e) {
-            if ($('input[name="use_alarm_config"]').prop('checked') === false) {
-                $('.config_alarm').hide();
-            } else if ($('input[name="use_alarm_config"]').prop('checked') === true) {
-                $('.config_alarm').show();
-            }
-        });
-
-        $('#alarm_period').focusout(function (e) {
-            var iComparePeriod = parseInt($('#alarm_period').val());
-            if ($('#config_day_type').val() === 'd') {
-                if (iComparePeriod > 28) {
-                    $('#alarm_period').val('28')
-                }
-
-            } else if ($('#config_day_type').val() === 'w') {
-                if (iComparePeriod > 4) {
-                    $('#alarm_period').val('4')
-                }
-            }
-        })
+        ALARM_COMM_EVENT.init_event();
 
         $('.reg').click(function (e) {
             var start_date = $(this).parent().parent().find('#makeDate').val().split('~')[0]
@@ -280,6 +284,7 @@
                 data: oParams,
                 success: function (data) {
                     data.return_data = JSON.parse(data.return_data);
+                    //todo  return_data가  현재 없어서  아래가 안나온다.
                     console.log('data.return_data');
                     console.log(data.return_data)
                     var event = {
@@ -291,7 +296,6 @@
                     };
                     $('#calendar').fullCalendar('renderEvent', event, true);
                     // 마지막  닫아준다 . -- 이벤트  버블링
-//                    $('.reg').parent().find('.btn-default').trigger('click');
                     $('.close').trigger('click');
                 }
             });
@@ -363,7 +367,9 @@
 
                 <span id="date"> </span> <input type="hidden" id="makeDate" value=""/> <br/>
 
-                <!--체크박스 -->
+                <!--알림설정 처리  -->
+                <!--알림설정 처리  -->
+                <!--알림설정 처리  -->
                 <input type="checkbox" name="use_alarm_config" id="use_alarm_config">
                 <label>알림설정 처리</label>
                 <br/>
