@@ -31,5 +31,20 @@ var ALARM_COMM_EVENT = {
         $('#config_alarm_time').val('오전 12:00')
         $('.config_alarm').hide();
 
+    },
+    alarm_modi_view: function (aReturnData) {
+        //일정관련 처리
+       var sUseAlarm = aReturnData.use_alarm_config;
+       var sAlarmConfig = (aReturnData.alarm_period.length > 0) ? aReturnData.alarm_period : '';
+       var sAlarmDayType = (aReturnData.alarm_day_type.length > 0) ? aReturnData.alarm_day_type : 'd';
+       var sAlarmDayTime = (aReturnData.alarm_time.length > 0) ? aReturnData.alarm_time : '오전 12:00';
+       if (sUseAlarm === 'T') {
+           $('input[name="use_alarm_config"]').trigger('click');
+       } else {
+           $('input[name="use_alarm_config"]').prop('checked', false);
+       }
+       $('#alarm_period').val(sAlarmConfig)
+       $('#config_alarm_day_type').val(sAlarmDayType)
+       $('#config_alarm_time').val(sAlarmDayTime)
     }
 };

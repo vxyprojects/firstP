@@ -45,9 +45,17 @@
     <input id="title" name="title" type="text" title="일정 제목" class="textinput" value="<%= cal_text %>"/></br>
     <input id="start_date" name="start_date" value="<%= start_date %>"/> ~
     <input id="end_date" name="end_date" value="<%= end_date %>"/></br>
+
+    <!--알림설정 처리데이타셋 -->
+    <!--알림설정 처리데이타셋 -->
+    <!--알림설정 처리데이타셋 -->
+    <input type="hidden" id="use_alarm_config_data" value="<%= use_alarm_config%>"/>
+    <input type="hidden" id="alarm_period_data" value="<%=alarm_period%>"/>
+    <input type="hidden" id="alarm_day_type_data" value="<%=alarm_day_type%>"/>
     <!--알림설정 처리  -->
     <!--알림설정 처리  -->
     <!--알림설정 처리  -->
+    <input type="hidden" id="alarm_time_data" value="<%=alarm_time%>"/>
     <input type="checkbox" name="use_alarm_config" id="use_alarm_config">
     <label>알림설정 처리</label>
     <br/>
@@ -189,28 +197,19 @@
         });
     })
 
-    //
+    var aReturnData = {};
+    aReturnData['use_alarm_config'] = $('#use_alarm_config_data').val()
+    aReturnData['alarm_period']  = $('#alarm_period_data').val()
+    aReturnData['alarm_day_type']  = $('#alarm_day_type_data').val()
+    aReturnData['alarm_time']  = $('#alarm_time_data').val()
     //    use_alarm_config
     //    alarm_period
     //    alarm_day_type
     //    alarm_time
-
     //    //일정관련 처리
-    //    var sUseAlarm = aReturnData.use_alarm_config;
-    //    var sAlarmConfig = (aReturnData.alarm_period.length > 0) ? aReturnData.alarm_period : '';
-    //    var sAlarmDayType = (aReturnData.alarm_day_type.length > 0) ? aReturnData.alarm_day_type : 'd';
-    //    var sAlarmDayTime = (aReturnData.alarm_time.length > 0) ? aReturnData.alarm_time : '오전 12:00';
-    //    if (sUseAlarm === 'T') {
-    //        $('input[name="use_alarm_config"]').trigger('click');
-    //    } else {
-    //        $('input[name="use_alarm_config"]').prop('checked', false);
-    //    }
-    //    $('#alarm_period').val(sAlarmConfig)
-    //    $('#config_alarm_day_type').val(sAlarmDayType)
-    //    $('#config_alarm_time').val(sAlarmDayTime)
-
 
     ALARM_COMM_EVENT.init_event();
+    ALARM_COMM_EVENT.alarm_modi_view(aReturnData);
 
     //수정 페이지  시작시 색상관련 이벤트 처리 해준다
 </script>
