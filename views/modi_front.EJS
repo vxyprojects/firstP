@@ -170,13 +170,28 @@
         var sEndDate = $('#end_date').val();
         var sCalLabelColor = $('#label_color').val();
         var calNo = getQuerystring('calNo');
+        var oReturnPostAlarmDataset = {};
+        oReturnPostAlarmDataset = ALARM_COMM_EVENT.forRegModifyDataset();
+
+
         var oParams = {
             'cal_no': calNo,
             'start_date': sStartDate,
             'end_date': sEndDate,
             'schedule_contents': sTitle,
-            'label_color': sCalLabelColor
+            'label_color': sCalLabelColor,
+            // 일정 관련  데이타
+            //            'use_alarm_config': use_alarm_config,
+            //            'alarm_period': alarm_period,
+            //            'alarm_day_type': alarm_day_type,
+            //            'alarm_time': alarm_time,
+            'use_alarm_config': oReturnPostAlarmDataset['use_alarm_config'],
+            'alarm_period': oReturnPostAlarmDataset['alarm_period'] ,
+            'alarm_day_type': oReturnPostAlarmDataset['alarm_day_type'],
+            'alarm_time': oReturnPostAlarmDataset['alarm_time'],
         };
+
+
 
         $.ajax({
             dataType: "json",

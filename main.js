@@ -162,7 +162,11 @@ module.exports = function (app, fs) {
 
 
     app.post('/modified', function (req, res) {
-        var sql = 'UPDATE vxy_cal SET start_date ="' + req.body.start_date + '",  end_date ="' + req.body.end_date + '"' + ', cal_label_color="' + req.body.label_color + '"' + ', cal_text="' + req.body.schedule_contents + '"' + ' WHERE cal_no=' + parseInt(req.body.cal_no);
+
+
+        var sql = 'UPDATE vxy_cal SET alarm_time="'+req.body.alarm_time+ '", alarm_day_type="'+req.body.alarm_day_type+ '", alarm_period="'+req.body.alarm_period+ '", use_alarm_config="' + req.body.use_alarm_config+'",  start_date ="' + req.body.start_date + '",  end_date ="' + req.body.end_date + '"' + ', cal_label_color="' + req.body.label_color + '"' + ', cal_text="' + req.body.schedule_contents + '"' + ' WHERE cal_no=' + parseInt(req.body.cal_no);
+        // console.log('sql');
+        // console.log(sql);
         pool.query(sql, function (err, result) {
             if (!err) {
                 console.log(result.affectedRows + " record(s) update");

@@ -257,24 +257,30 @@
             var schedule_contents = $('input[name="schedule_contents"]').val();
             var label_color = $('#label_color').val();
 
-            if ($('input[name="use_alarm_config"]').prop('checked') === true) {
-                var use_alarm_config = 'T';
-            } else if ($('input[name="use_alarm_config"]').prop('checked') === false) {
-                var use_alarm_config = 'F';
-            }
-            var alarm_period = $('#alarm_period').val();
-            var alarm_day_type = $('#config_alarm_day_type').val();
-            var alarm_time = $('#config_alarm_time').val();
+//            if ($('input[name="use_alarm_config"]').prop('checked') === true) {
+//                var use_alarm_config = 'T';
+//            } else if ($('input[name="use_alarm_config"]').prop('checked') === false) {
+//                var use_alarm_config = 'F';
+//            }
+//            var alarm_period = $('#alarm_period').val();
+//            var alarm_day_type = $('#config_alarm_day_type').val();
+//            var alarm_time = $('#config_alarm_time').val();
 
+            var oReturnPostAlarmDataset = {};
+            oReturnPostAlarmDataset = ALARM_COMM_EVENT.forRegModifyDataset();
             var oParams = {
                 'start_date': start_date,
                 'end_date': end_date,
                 'schedule_contents': schedule_contents,
                 'label_color': label_color,
-                'use_alarm_config': use_alarm_config,
-                'alarm_period': alarm_period,
-                'alarm_day_type': alarm_day_type,
-                'alarm_time': alarm_time,
+//                'use_alarm_config': use_alarm_config,
+//                'alarm_period': alarm_period,
+//                'alarm_day_type': alarm_day_type,
+//                'alarm_time': alarm_time,
+                'use_alarm_config': oReturnPostAlarmDataset['use_alarm_config'],
+                'alarm_period': oReturnPostAlarmDataset['alarm_period'] ,
+                'alarm_day_type': oReturnPostAlarmDataset['alarm_day_type'],
+                'alarm_time': oReturnPostAlarmDataset['alarm_time'],
             };
 
             $.ajax({

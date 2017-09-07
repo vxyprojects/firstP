@@ -47,4 +47,24 @@ var ALARM_COMM_EVENT = {
        $('#config_alarm_day_type').val(sAlarmDayType)
        $('#config_alarm_time').val(sAlarmDayTime)
     }
+    ,
+    forRegModifyDataset:function (){
+
+
+        if ($('input[name="use_alarm_config"]').prop('checked') === true) {
+            var use_alarm_config = 'T';
+        } else if ($('input[name="use_alarm_config"]').prop('checked') === false) {
+            var use_alarm_config = 'F';
+        }
+        var alarm_period = $('#alarm_period').val();
+        var alarm_day_type = $('#config_alarm_day_type').val();
+        var alarm_time = $('#config_alarm_time').val();
+
+        var oReturnPostAlarmDataset = {};
+        oReturnPostAlarmDataset['use_alarm_config'] = use_alarm_config;
+        oReturnPostAlarmDataset['alarm_period'] = alarm_period;
+        oReturnPostAlarmDataset['alarm_day_type'] = alarm_day_type;
+        oReturnPostAlarmDataset['alarm_time'] = alarm_time;
+        return oReturnPostAlarmDataset;
+    }
 };
