@@ -77,22 +77,44 @@ module.exports = function (app, fs) {
 
     //hybrid -call api test -- 하이브리드앱 api 호출용
     app.get('/get/cal_data', function (req, res) {
+//        req.query.use_id
 
-        // select * from vxy_cal
-        // where  start_date = '2017-5-12';
-        // req.query.current_date
-        // pool.query('SELECT * from vxy_cal where is_delete ="F"', function (err, rows, fields) {
+        //where
+        //todo 현재 날짜
+        //todo 현재 날짜 에서 -28일전
+        //todo 알림설정 이용
+        //todo 안지운 스케즐
 
-        pool.query('SELECT * from vxy_cal where start_date ="' + req.query.current_date + '" and is_delete ="F"', function (err, rows, fields) {
-            if (err) throw err;
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth() + 1; //January is 0!
+        var yyyy = today.getFullYear();
 
-            console.log('req.query.current_date')
-            console.log(req.query.current_date)
+        var prev_28day = new Date();
+        prev_28day.setDate(prev_28day.getDate() - 28);
+        var dd_28ago = prev_28day.getDate();
+        var mm_28ago = prev_28day.getMonth() + 1; //January is 0!
+        var yyyy_28ago = prev_28day.getFullYear();
 
-            res.send({return_data: JSON.stringify(rows)});
-            // JSON.parse(rows);
-            // res.json(rows);
-        });
+        var sCurrentDate = yyyy + '-' + mm + '-' + dd;
+        var s28AgoDay = yyyy_28ago + '-' + mm_28ago + '-' + dd_28ago;
+
+//        console.log('현재날짜');
+//        console.log(sCurrentDate);
+//        console.log('28일전 날짜');
+//        console.log(s28AgoDay);
+//req.query.user_id
+//        SELECT * from vxy_cal where start_date BETWEEN sCurrentDate and s28AgoDay     and  use_alarm_config = 'T' and and is_delete ='F' and user_id = req.query.user_id
+//        pool.query('SELECT * from vxy_cal where start_date ="' + req.query.current_date + '" and is_delete ="F"', function (err, rows, fields) {
+//            if (err) throw err;
+////            console.log('req.query.current_date')
+////            console.log(req.query.current_date)
+//
+//            res.send({return_data: JSON.stringify(rows)});
+//            // JSON.parse(rows);
+//            // res.json(rows);
+//        });
+        //todo 결과 나온 리스트 돌아가면서  알림 설정과 현재 날짜 시간을 비교해서 send 해야하는 리스트 뽑아서  return
     });
 
     app.get('/oauth', function (req, res) {
@@ -164,7 +186,7 @@ module.exports = function (app, fs) {
     app.post('/modified', function (req, res) {
 
 
-        var sql = 'UPDATE vxy_cal SET alarm_time="'+req.body.alarm_time+ '", alarm_day_type="'+req.body.alarm_day_type+ '", alarm_period="'+req.body.alarm_period+ '", use_alarm_config="' + req.body.use_alarm_config+'",  start_date ="' + req.body.start_date + '",  end_date ="' + req.body.end_date + '"' + ', cal_label_color="' + req.body.label_color + '"' + ', cal_text="' + req.body.schedule_contents + '"' + ' WHERE cal_no=' + parseInt(req.body.cal_no);
+        var sql = 'UPDATE vxy_cal SET alarm_time="' + req.body.alarm_time + '", alarm_day_type="' + req.body.alarm_day_type + '", alarm_period="' + req.body.alarm_period + '", use_alarm_config="' + req.body.use_alarm_config + '",  start_date ="' + req.body.start_date + '",  end_date ="' + req.body.end_date + '"' + ', cal_label_color="' + req.body.label_color + '"' + ', cal_text="' + req.body.schedule_contents + '"' + ' WHERE cal_no=' + parseInt(req.body.cal_no);
         // console.log('sql');
         // console.log(sql);
         pool.query(sql, function (err, result) {
