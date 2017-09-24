@@ -77,20 +77,24 @@ module.exports = function (app, fs) {
 
     //hybrid -call api test -- 하이브리드앱 api 호출용
     app.get('/get/cal_data', function (req, res) {
-//        req.query.use_id
 
+        // require('date-utils');
+        var time = require('time');
         //where
         //todo 현재 날짜
         //todo 현재 날짜 에서 -28일전
         //todo 알림설정 이용
         //todo 안지운 스케즐
-
         var today = new Date();
         var dd = today.getDate();
         var mm = today.getMonth() + 1; //January is 0!
         var yyyy = today.getFullYear();
 
         var prev_28day = new Date();
+        //
+        // console.log('datetype')
+        // console.log('datetype')
+
         prev_28day.setDate(prev_28day.getDate() - 28);
         var dd_28ago = prev_28day.getDate();
         var mm_28ago = prev_28day.getMonth() + 1; //January is 0!
@@ -98,38 +102,143 @@ module.exports = function (app, fs) {
 
         var sCurrentDate = yyyy + '-' + mm + '-' + dd;
         var s28AgoDay = yyyy_28ago + '-' + mm_28ago + '-' + dd_28ago;
-
-//        console.log('현재날짜');
-//        console.log(sCurrentDate);
-//        console.log('28일전 날짜');
-//        console.log(s28AgoDay);
-//req.query.user_id
-//        SELECT * from vxy_cal where start_date BETWEEN sCurrentDate and s28AgoDay     and  use_alarm_config = "T" and and is_delete ='F' and user_id = req.query.user_id
         //todo 가라 아이디
         req.query.user_id = 'user_id2';
+        // var sQueryTest = 'SELECT * from vxy_cal where date(start_date) BETWEEN "' + s28AgoDay + '" and "' + sCurrentDate + '" and is_delete ="F"  and  use_alarm_config = "T" and  user_id = "' + req.query.user_id + '"'
+        // console.log('sQueryTest')
+        // console.log(sQueryTest)
+       if (req.query.user_id.length < 0 || typeof  req.query.user_id!== 'string') {
+           return 'need user_id';
 
-        var sQueryTest = 'SELECT * from vxy_cal where start_date BETWEEN "' + s28AgoDay + '" and "' + sCurrentDate + '" and is_delete ="F"  and  use_alarm_config = "T" and  user_id = "' + req.query.user_id + '"'
+       }
 
-        console.log('sQueryTest')
-        console.log(sQueryTest)
+       var oSelectResult;
 
-//        if (req.query.user_id.length < 0 || typeof  req.query.user_id.length !== 'string') {
-//            return 'need user_id';
-//
-//        }
+       var caculDate = function(start_date , alarm_period_from_sart_d, alarm_time){
 
+
+           var Oconvert_startDate = new Date(start_date);
+
+           var a = new time.Date(start_date);
+
+           a.setTimezone('Asia/Seoul');
+           console.log(a.toString());
+           a.setTimezone('Europe/Kiev');
+           console.log(a.toString());
+
+
+           // var sTestVal =  new Date('2017-9-24');
+           // var sTestVal =  new Date('2017-9-24');
+           // var sTestVal = sTestVal.toFormat('YYYY-MM-DD HH24:MI:SS');
+
+
+           // Oconvert_startDate = Oconvert_startDate.toFormat('YYYY-MM-DD HH24:MI:SS');
+           // today = today.toFormat('YYYY-MM-DD HH24:MI:SS');
+
+           // console.log('Oconvert_startDate')
+           // console.log(Oconvert_startDate)
+           // console.log('today')
+           // console.log(today)
+           // var sTestVal =  new Date('2017-9-24').toISOString().
+           // replace(/T/, ' ').      // replace T with a space
+           // replace(/\..+/, '');
+
+           // console.log('sTestVal')
+           // console.log(sTestVal)
+
+
+           // console.log('sTestVal getdate')
+           // console.log(sTestVal.getDate())
+
+
+           // console.log('start_date before')
+           // console.log(start_date)
+           // console.log('alarm_period_from_sart_d')
+           // console.log(alarm_period_from_sart_d)
+           //
+           //
+           // console.log('Oconvert_startDate before')
+           // console.log(Oconvert_startDate)
+           // console.log('today')
+           // console.log(today)
+
+           // var sCurrentDate = yyyy +'-'+mm +'-' + dd;
+           Oconvert_startDate.setDate(Oconvert_startDate.getDate() - alarm_period_from_sart_d);
+           // var sConfig_yyyy =  Oconvert_startDate.getFullYear();
+           // var sConfig_mm = Oconvert_startDate.getMonth()+1
+           // var sConfig_dd= Oconvert_startDate.getDate();
+           //
+           // var sConfigDate = sConfig_yyyy+'-'+sConfig_mm +'-' + sConfig_dd;
+           // if (today.getTime() == Oconvert_startDate.getTime())
+
+           // console.log('sCurrentDate')
+           // console.log(sCurrentDate)
+           // console.log('sConfigDate')
+           // console.log(sConfigDate)
+
+
+           // if (sCurrentDate === sConfigDate)
+           // {
+           //     //  console.log('today if  in ')
+           //     //  console.log(today)
+           //     //  console.log('Oconvert_startDate')
+           //     //  console.log(Oconvert_startDate)
+           //     // //todo  시간도  맞는지  체크 해준다
+           //     // // alarm_time
+           //     // console.log('alarm_time');
+           //     // console.log(alarm_time);
+           // }
+
+       }
 
 //        pool.query('SELECT * from vxy_cal where start_date ="' + req.query.current_date + '" and is_delete ="F"', function (err, rows, fields) {
-//        pool.query('SELECT * from vxy_cal where BETWEEN "' + s28AgoDay + '" and "' + sCurrentDate + '" and is_delete ="F"  and  use_alarm_config = "T" and  user_id = "' + req.query.user_id + '"', function (err, rows, fields) {
-//            if (err) throw err;
-////            console.log('req.query.current_date')
-////            console.log(req.query.current_date)
-//
-////            res.send({return_data: JSON.stringify(rows)});
-//            // JSON.parse(rows);
-//            // res.json(rows);
-//        });
-        //todo 결과 나온 리스트 돌아가면서  알림 설정과 현재 날짜 시간을 비교해서 send 해야하는 리스트 뽑아서  return
+       pool.query('SELECT * from vxy_cal where date(start_date) BETWEEN "' + s28AgoDay + '" and "' + sCurrentDate + '" and is_delete ="F"  and  use_alarm_config = "T" and  user_id = "' + req.query.user_id + '"', function (err, rows, fields) {
+           // console.log('error')
+           // console.log(err)
+           if (err) throw err;
+
+//            res.send({return_data: JSON.stringify(rows)});
+           // JSON.parse(rows);
+           // res.json(rows);
+           // oSelectResult = rows;
+
+
+           // alarm_period: '1',
+           //     alarm_day_type: 'w',
+           //     alarm_time: '00:30'
+
+           // alarm_period: '23',
+           //     alarm_day_type: 'd',
+           //     alarm_time: '00:00' }
+
+           // alarm_period: '2',
+           //     alarm_day_type: 'd',
+           //     alarm_time: '00:00' }
+
+           for (iRow in rows){
+               // console.log('rows[iRow]:')
+               // console.log(rows[iRow])
+               //todo  get_start_date
+               //todo  get_start_date cacul
+               // d type
+               if (rows[iRow]['alarm_day_type'] === 'd'){
+                   // rows[iRow]['start_date']
+                   // rows[iRow]['alarm_period']
+                   caculDate(rows[iRow]['start_date'], parseInt(rows[iRow]['alarm_period']), rows[iRow]['alarm_time']);
+               // w type
+               } else if ( rows[iRow]['alarm_day_type'] === 'w'){
+
+                   // rows[iRow]['start_date']
+                   // parseInt(rows[iRow]['alarm_period']) * 7
+               }
+
+
+           }
+           //todo 결과 나온 리스트 돌아가면서  알림 설정과 현재 날짜 시간을 비교해서 send 해야하는 리스트 뽑아서  return
+       });
+       // console.log('oSelectResult')
+       // console.log(oSelectResult)
+
     });
 
     app.get('/oauth', function (req, res) {
