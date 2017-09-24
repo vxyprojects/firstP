@@ -104,13 +104,28 @@ module.exports = function (app, fs) {
 //        console.log('28일전 날짜');
 //        console.log(s28AgoDay);
 //req.query.user_id
-//        SELECT * from vxy_cal where start_date BETWEEN sCurrentDate and s28AgoDay     and  use_alarm_config = 'T' and and is_delete ='F' and user_id = req.query.user_id
+//        SELECT * from vxy_cal where start_date BETWEEN sCurrentDate and s28AgoDay     and  use_alarm_config = "T" and and is_delete ='F' and user_id = req.query.user_id
+        //todo 가라 아이디
+        req.query.user_id = 'user_id2';
+
+        var sQueryTest = 'SELECT * from vxy_cal where start_date BETWEEN "' + s28AgoDay + '" and "' + sCurrentDate + '" and is_delete ="F"  and  use_alarm_config = "T" and  user_id = "' + req.query.user_id + '"'
+
+        console.log('sQueryTest')
+        console.log(sQueryTest)
+
+//        if (req.query.user_id.length < 0 || typeof  req.query.user_id.length !== 'string') {
+//            return 'need user_id';
+//
+//        }
+
+
 //        pool.query('SELECT * from vxy_cal where start_date ="' + req.query.current_date + '" and is_delete ="F"', function (err, rows, fields) {
+//        pool.query('SELECT * from vxy_cal where BETWEEN "' + s28AgoDay + '" and "' + sCurrentDate + '" and is_delete ="F"  and  use_alarm_config = "T" and  user_id = "' + req.query.user_id + '"', function (err, rows, fields) {
 //            if (err) throw err;
 ////            console.log('req.query.current_date')
 ////            console.log(req.query.current_date)
 //
-//            res.send({return_data: JSON.stringify(rows)});
+////            res.send({return_data: JSON.stringify(rows)});
 //            // JSON.parse(rows);
 //            // res.json(rows);
 //        });
